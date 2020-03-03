@@ -1,11 +1,15 @@
 <?php
 
-$file = "test.torrent";
-$fileContent = file_get_contents($file);
-$escapedFileContent = str_replace("'", "'\''", $fileContent);
-$output = shell_exec("./bencode.out '" . $escapedFileContent . "'");
-$torrentData = json_decode($output);
+function bdecode($file) {
+  $output = shell_exec("./bencode.out " . $file);
+  //echo $output . "\n\n";
+  $torrentData = json_decode($output);
+  //echo "\n\n";
+  return $torrentData;
+}
 
-var_dump($torrentData);
+$file = "test.torrent";
+$out = bdecode($file);
+var_dump($out);
 
 ?>

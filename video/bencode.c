@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <fcntl.h>
 
 typedef enum e_datatype
   {List, Dict}
@@ -38,7 +40,7 @@ node* rm(node *list) {
   return res;
 }
 
-void insertcoma(node **state) {
+void coma(node **state) {
   switch ((*state)->dt)
   {
     case Dict:
@@ -69,83 +71,120 @@ void insertcoma(node **state) {
   }
 }
 
-int open(const char **run, node **state) {
-  if (!**run) return 0;
+int end(int ret, int fd, node** state) {
+  while (*state) *state = rm(*state);
+  close(fd);
+  return ret;
+}
 
-  switch (**run)
+int digest(char cbuf, int fd, node **state) {
+  int res;
+
+  switch (cbuf)
   {
     case 'd':
-      if (*state) insertcoma(state);
+      if (*state) coma(state);
       write(1, "{", 1);
+
       *state = add(Dict, *state);
-      if (!**run) return 1;
+
       break;
 
     case 'l':
-      if (!*state) return 2;
-      insertcoma(state);
+      if (!*state) return end(20, fd, state);
+
+      coma(state);
       write(1, "[", 1);
+
       *state = add(List, *state);
-      if (!**run) return 3;
+
       break;
 
     case 'i':
-      if (!*state) return 4;
-      insertcoma(state);
-      (*run)++;
-      while (**run <= '9' && **run >= '0')
+      if (!*state) return end(30, fd, state);
+
+      coma(state);
+
+      res = read(fd, &cbuf, 1);
+      if (res < 0) return end(31, fd, state);
+
+      while (cbuf <= '9' && cbuf >= '0')
       {
-        write(1, *run, 1);
-        (*run)++;
+        write(1, &cbuf, 1);
+
+        if (res == 0) return end(32, fd, state);
+
+        res = read(fd, &cbuf, 1);
+        if (res < 0) return end(33, fd, state);
       }
-      if (**run != 'e') return 5;
+      if (cbuf != 'e') return end(cbuf, fd, state);
+
       break;
 
     case 'e':
-      if (!*state) return 6;
+      if (!*state)
+        return end(40, fd, state);
       if ((*state)->dt == Dict && (*state)->kv == Key)
-        return 12;
+        return end(41, fd, state);
+
       if ((*state)->dt == Dict)
         write(1, "}", 1);
-      else if ((*state)->dt == List)
+      if ((*state)->dt == List)
         write(1, "]", 1);
-      else return 7;
+
       *state = rm(*state);
+
       break;
 
     default:
-      if (!*state) return 8;
-      if (**run <= '9' && **run >= '0')
+      if (!*state) return end(50, fd, state);
+      if (cbuf > '9' || cbuf < '0') return end(51, fd, state);
+
+      int strlen = 0;
+
+      while (cbuf <= '9' && cbuf >= '0')
       {
-        int strlen = 0;
+        strlen = (strlen * 10) + cbuf - '0';
 
-        while (**run <= '9' && **run >= '0')
-        {
-          strlen = (strlen * 10) + **run - '0';
-          (*run)++;
-        }
-        if (**run != ':') return 9;
-        (*run)++;
-
-        insertcoma(state);
-        write(1, "\"", 1);
-        write(1, *run, strlen);
-        write(1, "\"", 1);
-        *run += strlen -1;
+        res = read(fd, &cbuf, 1);
+        if (res < 0) return end(54, fd, state);
+        if (res == 0) return end(53, fd, state);
       }
-      else return 10;
+      if (cbuf != ':') return end(55, fd, state);
+
+      char* sbuf = malloc(sizeof(char) * strlen);
+      if (!sbuf) return end(56, fd, state);
+      res = read(fd, sbuf, strlen);
+      if (res < 0) return end(57, fd, state);
+      if (res == 0 && *state) return end(58, fd, state);
+
+      coma(state);
+      write(1, "\"", 1);
+      write(1, sbuf, strlen);
+      write(1, "\"", 1);
+
+      free(sbuf);
       break;
   }
 
-  (*run)++;
-  return open(run, state);
+  return 0;
 }
 
 int main(int argc, char const *argv[]) {
-  if (argc != 2) return 11;
+  if (argc != 2) return 1;
 
-  const char* run = argv[1];
+  char cbuf;
+  int res, ores;
   node* state = NULL;
+  int fd = open(argv[1], O_RDONLY);
 
-  return open(&run, &state);
+  while ((res = read(fd, &cbuf, 1)))
+  {
+    if (res < 0) return end(2, fd, &state);
+
+    ores = digest(cbuf, fd, &state);
+    if (ores) return end(ores, fd, &state);
+  }
+
+  end(0, fd, &state);
 }
