@@ -137,6 +137,7 @@ int digest(char cbuf, int fd, node **state) {
       break;
 
     default:
+      if (!*state && cbuf == '\r') return end(0, fd, state);
       if (!*state) return end(50, fd, state);
       if (cbuf > '9' || cbuf < '0') return end(51, fd, state);
 
