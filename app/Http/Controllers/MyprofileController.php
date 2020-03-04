@@ -79,7 +79,8 @@ class MyprofileController extends Controller
         $psw = Hash::make($request->password);
         // $mail = $request->Email;
         // echo $mail;
-        $users->where('id', $id)->update(['name' => $request->name, 'last_name' => $request->last_name, 'email' => $request->Email, 'password' => $psw]);
+        $now = date("Y-n-j G:i:s");
+        $users->where('id', $id)->update(['name' => $request->name, 'last_name' => $request->last_name, 'email' => $request->Email, 'password' => $psw, 'updated_at' => $now]);
         return redirect()->route('myprofile.index')->with('info', 'Votre compte à bien été mis à jour !');
     }
 
