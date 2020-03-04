@@ -22,3 +22,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('myprofile', 'MyprofileController')->middleware('auth');
+
+// Route qui permet de connaître la langue active
+Route::get('locale', 'LanguageController@getLang')->name('getlang');
+
+// Route qui permet de modifier la langue
+Route::get('locale/{lang}', 'LanguageController@setLang')->name('setlang');

@@ -52,9 +52,10 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
+                                <!-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre> -->
+                                    <p>Bienvenue {{Auth::user()->name }}</p>
+                                    <!-- <span class="caret"></span> -->
+                                <!-- </a> -->
                                 <!-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> -->
                                     <a class="dropdown-item" href="{{ route('myprofile.index') }}">  {{ __('My Profile') }}</a>
                                 <!-- </div> -->
@@ -63,14 +64,18 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ ('Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
                                 <!-- </div> -->
-
+                                @if (Auth::user()->language == 1)
+                                   <a href="locale/en"> <img src="https://www.anglais5minutes.fr/wp-content/uploads/2014/11/drapeau-anglais-1707-300x200.gif" width="25px" heigth="25px" alt=""> </a>
+                                @else
+                                  <a href="locale/fr"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAACOCAMAAAB64AaGAAAAElBMVEX////tKTkAI5UXIpW5vdn4vcB+HZbEAAAAmElEQVR4nO3PQQ0AIBADsMGBf8uYWMKnddDsijmpuKsjWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpav1sP+YV7s+662UIAAAAASUVORK5CYII=" width="25px" heigth="25px"alt=""> </a>
+                                 @endif
 
 
 
