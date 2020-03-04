@@ -39,6 +39,13 @@ class MyprofileController extends Controller
     public function store(Request $request)
     {
         //
+        // donc avant je dois upload le fichier sur le serveur
+        // le mettre dans la base de donnée si request image est pas vide
+        // verifier qu on accepte que des images
+        echo $request->image;
+
+        //return redirect()->route('myprofile.index')->with('info', 'Votre photo de profil à bien été mis à jour !');
+
     }
 
     /**
@@ -85,19 +92,6 @@ class MyprofileController extends Controller
         $users->where('id', $id)->update(['name' => $request->name, 'last_name' => $request->last_name, 'email' => $request->Email, 'password' => $psw, 'updated_at' => $now]);
         return redirect()->route('myprofile.index')->with('info', 'Votre compte à bien été mis à jour !');
     }
-
-    public function update_picture(Request $request, $id)
-    {
-        // $users = auth()->user();
-        //
-        // $psw = Hash::make($request->password);
-        // // $mail = $request->Email;
-        // // echo $mail;
-        // $now = date("Y-n-j G:i:s");
-        // $users->where('id', $id)->update(['name' => $request->name, 'last_name' => $request->last_name, 'email' => $request->Email, 'password' => $psw, 'updated_at' => $now]);
-        // return redirect()->route('myprofile.index')->with('info', 'Votre compte à bien été mis à jour !');
-    }
-
     /**
      * Remove the specified resource from storage.
      *

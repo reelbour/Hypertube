@@ -6,7 +6,7 @@
         </header>
         <div class="card-content" style="text-align: center;">
             <div class="content">
-                <form action="{{ route('myprofile.store', $users->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('myprofile.store', $users->id) }}" method="POST" enctype="image/png">
                     @csrf
                     @method('post')
 
