@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class MyprofileController extends Controller
 {
@@ -72,7 +74,13 @@ class MyprofileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $users = auth()->user();
+
+        $psw = Hash::make($request->password);
+        // $mail = $request->Email;
+        // echo $mail;
+        $users->where('id', $id)->update(['name' => $request->name, 'last_name' => $request->last_name, 'email' => $request->Email, 'password' => $psw]);
+        return redirect()->route('myprofile.index')->with('info', 'Votre compte à bien été mis à jour !');
     }
 
     /**
