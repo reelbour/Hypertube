@@ -21,4 +21,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('myprofile', 'MyprofileController');
+Route::resource('myprofile', 'MyprofileController')->middleware('auth');

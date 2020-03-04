@@ -6,14 +6,13 @@
         </header>
         <div class="card-content" style="text-align: center;">
             <div class="content">
-                <form action="{{ route('myprofile.store', $users->id) }}" method="POST" enctype="image/png">
+                <form action="{{ route('myprofile.store', $users->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('post')
 
                     <div class="field">
                         <label class="label">Profile's Picture</label>
                         <div class="control">
-                          <input id="image" type="file" class="input @error('image') is-danger @enderror" type="text" name="image" value="{{ old('image', $users->image) }}" placeholder="Your image">
+                          <input id="image" type="file" class="input @error('image') is-danger @enderror"  name="image"  placeholder="Your image">
                         </div>
                         @error('title')
                             <p class="help is-danger">{{ $message }}</p>
