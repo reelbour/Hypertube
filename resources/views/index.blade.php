@@ -32,7 +32,7 @@
                             </tr>
                             <tr>
 
-                                <td><a href="#">   Update your profile's picture ?</a></td>
+                                <td><a href="{{ route('myprofile.show', $users->id) }}">   Update your profile's picture ?</a></td>
                                 <td></td>
                                 <td></td>
                                 <td><td><a href="{{ route('myprofile.edit', $users->id) }}">Update your user's information ?</a></td></td>

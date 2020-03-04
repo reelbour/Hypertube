@@ -50,6 +50,8 @@ class MyprofileController extends Controller
     public function show($id)
     {
         //
+        $users = auth()->user();
+        return view('edit_picture', compact('users'));
     }
 
     /**
@@ -82,6 +84,18 @@ class MyprofileController extends Controller
         $now = date("Y-n-j G:i:s");
         $users->where('id', $id)->update(['name' => $request->name, 'last_name' => $request->last_name, 'email' => $request->Email, 'password' => $psw, 'updated_at' => $now]);
         return redirect()->route('myprofile.index')->with('info', 'Votre compte à bien été mis à jour !');
+    }
+
+    public function update_picture(Request $request, $id)
+    {
+        // $users = auth()->user();
+        //
+        // $psw = Hash::make($request->password);
+        // // $mail = $request->Email;
+        // // echo $mail;
+        // $now = date("Y-n-j G:i:s");
+        // $users->where('id', $id)->update(['name' => $request->name, 'last_name' => $request->last_name, 'email' => $request->Email, 'password' => $psw, 'updated_at' => $now]);
+        // return redirect()->route('myprofile.index')->with('info', 'Votre compte à bien été mis à jour !');
     }
 
     /**
