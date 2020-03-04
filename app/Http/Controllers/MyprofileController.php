@@ -59,6 +59,8 @@ class MyprofileController extends Controller
     public function edit($id)
     {
         //
+        $users = auth()->user();
+        return view('edit', compact('users'));
     }
 
     /**

@@ -32,10 +32,10 @@
                             </tr>
                             <tr>
 
-                                <td><a href="#">   Updater your profile's picture ?</a></td>
+                                <td><a href="#">   Update your profile's picture ?</a></td>
                                 <td></td>
                                 <td></td>
-                                <td><td><a href="{{ route('myprofile.edit', $users->id) }}">Updater your user's information ?</a></td></td>
+                                <td><td><a href="{{ route('myprofile.edit', $users->id) }}">Update your user's information ?</a></td></td>
 
                             </tr>
 

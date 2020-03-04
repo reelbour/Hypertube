@@ -32,6 +32,8 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+
+                    
                     <ul class="navbar-nav mr-auto">
 
                     </ul>
@@ -64,8 +66,16 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
+
+
+                                    </div>
+
+
                                 </div>
                             </li>
+
+
+
                         @endguest
                     </ul>
                 </div>
