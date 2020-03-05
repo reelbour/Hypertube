@@ -65,6 +65,8 @@
                             </div>
                         </div>
                     </form>
+
+                    <a href="#">Se connecter avec github</a>
                 </div>
             </div>
         </div>
