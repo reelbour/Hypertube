@@ -31,3 +31,5 @@ Route::get('locale', 'LanguageController@getLang')->name('getlang');
 
 // Route qui permet de modifier la langue
 Route::get('locale/{lang}', 'LanguageController@setLang')->name('setlang');
+
+Route::get('/UserProfile/{id}', 'UserProfileController@show_user')->middleware('auth');
