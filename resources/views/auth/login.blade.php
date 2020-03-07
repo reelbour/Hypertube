@@ -64,9 +64,16 @@
                                 @endif
                             </div>
                         </div>
-                    </form>
 
-                    <a href="#">Se connecter avec github</a>
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                                <a class="btn btn-sm " href="{{ url('socialauth/github') }}">
+                                   <i class="fa fa-github fa-3x"></i> 
+                                </a>
+                            </div>
+                        </div>
+
+                    </form>
                 </div>
             </div>
         </div>
