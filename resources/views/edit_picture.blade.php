@@ -12,7 +12,7 @@
                     <div class="field">
                         <label class="label">Profile's Picture</label>
                         <div class="control">
-                          <input id="image" type="file" class="input @error('image') is-danger @enderror"  name="image"  placeholder="Your image">
+                          <input id="image" type="file" class="input @error('image') is-danger @enderror"  name="image" accept="image/*" placeholder="Your image">
                         </div>
                         @error('title')
                             <p class="help is-danger">{{ $message }}</p>
