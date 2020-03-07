@@ -23,8 +23,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('myprofile', 'MyprofileController')->middleware('auth');
 
-Route::get('login/github', 'Auth\LoginController@redirectToProvider');
-Route::get('login/github/callback', 'Auth\LoginController@handleProviderCallback');
+Route::get('socialauth/{provider}', 'Auth\SocialAuthController@redirectToProvider');
+Route::get('socialauth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
 
 // Route qui permet de connaître la langue active
 Route::get('locale', 'LanguageController@getLang')->name('getlang');
