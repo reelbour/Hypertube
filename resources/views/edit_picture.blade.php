@@ -2,7 +2,7 @@
 @section('content')
     <div class="card">
         <header class="card-header">
-            <p class="card-header-title">Modification of your profile's picture</p>
+            <p class="card-header-title">{{ __('text.txt_pic_up')}}</p>
         </header>
         <div class="card-content" style="text-align: center;">
             <div class="content">
@@ -10,7 +10,7 @@
                     @csrf
 
                     <div class="field">
-                        <label class="label">Profile's Picture</label>
+                        <label class="label">{{ __('text.profilepic')}}</label>
                         <div class="control">
                           <input id="image" type="file" class="input @error('image') is-danger @enderror"  name="image" accept="image/*" placeholder="Your image">
                         </div>
@@ -21,7 +21,7 @@
 
                     <div class="field">
                         <div class="control">
-                          <button class="button is-link">Envoyer</button>
+                          <button class="button is-link">{{ __('text.send')}}</button>
                         </div>
                     </div>
                 </form>

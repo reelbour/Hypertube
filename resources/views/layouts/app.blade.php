@@ -54,18 +54,18 @@
                         @else
                             <li class="nav-item dropdown">
                                 <!-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre> -->
-                                    <p>Bienvenue {{Auth::user()->name }}</p>
+                                    <p>{{ __('text.welcome')}} {{Auth::user()->name }}</p>
                                     <!-- <span class="caret"></span> -->
                                 <!-- </a> -->
                                 <!-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> -->
-                                    <a class="dropdown-item" href="{{ route('myprofile.index') }}">  {{ __('My Profile') }}</a>
+                                    <a class="dropdown-item" href="{{ route('myprofile.index') }}">  {{ __('text.my_profile') }}</a>
                                 <!-- </div> -->
 
                                 <!-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> -->
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ ('Logout') }}
+                                        {{ __('text.logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -73,9 +73,9 @@
                                     </form>
                                 <!-- </div> -->
                                 @if (Auth::user()->language == 'fr')
-                                   <a href="locale/en"> <img src="/Public/Pictures/en.png" width="25px" heigth="25px" alt=""> </a>
+                                   <a href="/Public/locale/en"> <img src="/Public/Pictures/en.png" width="25px" heigth="25px" alt=""> </a>
                                 @else
-                                  <a href="locale/fr"><img src="/Public/Pictures/fr.png" width="25px" heigth="25px"alt=""> </a>
+                                  <a href="/Public/locale/fr"><img src="/Public/Pictures/fr.png" width="25px" heigth="25px"alt=""> </a>
                                  @endif
 
 

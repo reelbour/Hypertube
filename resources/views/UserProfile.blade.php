@@ -2,19 +2,19 @@
 @section('content')
     <div class="card">
         <header class="card-header">
-            <p class="card-header-title">User Profile</p>
+            <p class="card-header-title">{{ $users->name }}'s {{ __('text.profile')}}</p>
         </header>
         <div class="card-content">
             <div class="content">
                 <table class="table is-hoverable">
                     <thead>
                         <tr>
-                        <th>Profile's Picture</th>
+                        <th>{{ __('text.profilepic')}}</th>
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Last Name</th>
-                            <th>Account created at</th>
-                            <th>Account updated at</th>
+                            <th>{{ __('text.name')}}</th>
+                            <th>{{ __('text.last_name')}}</th>
+                            <th>{{ __('text.account_crea')}}</th>
+                            <th>{{ __('text.account_up')}}</th>
 
                         </tr>
                     </thead>
