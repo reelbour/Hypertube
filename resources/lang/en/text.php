@@ -28,5 +28,5 @@ return [
   'send' => "Send",
   'dashboard' => 'Dashboard',
   'log_txt' => "You are logged in !",
-  'profile' => 'profile',
+  'user_profile' => ':user\'s profile',
 ];

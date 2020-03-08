@@ -28,6 +28,6 @@ return [
     'send' => "Envoyer",
     'dashboard' => 'Tableau de bord',
     'log_txt' => "Vous êtes connecté",
-    'profile' => 'profil',
+    'user_profile' => 'Profil de :user',
 
 ];

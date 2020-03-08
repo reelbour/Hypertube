@@ -2,7 +2,7 @@
 @section('content')
     <div class="card">
         <header class="card-header">
-            <p class="card-header-title">{{ $users->name }}'s {{ __('text.profile')}}</p>
+            <p class="card-header-title">{{ __('text.user_profile', ['user' => $users->name])}} </p>
         </header>
         <div class="card-content">
             <div class="content">
