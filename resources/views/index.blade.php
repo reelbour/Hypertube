@@ -2,20 +2,20 @@
 @section('content')
     <div class="card">
         <header class="card-header">
-            <p class="card-header-title">My profile</p>
+            <p class="card-header-title">{{ __('text.my_profile') }}</p>
         </header>
         <div class="card-content">
             <div class="content">
                 <table class="table is-hoverable">
                     <thead>
                         <tr>
-                        <th>Profile's Picture</th>
+                        <th>{{ __('text.profilepic') }}</th>
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Account created at</th>
-                            <th>Account updated at</th>
+                            <th>{{ __('text.name') }}</th>
+                            <th>{{ __('text.last_name') }}</th>
+                            <th>{{ __('text.email') }}</th>
+                            <th>{{ __('text.account_crea') }}</th>
+                            <th>{{ __('text.account_up') }}</th>
 
                         </tr>
                     </thead>
@@ -32,10 +32,10 @@
                             </tr>
                             <tr>
 
-                                <td><a href="{{ route('myprofile.show', $users->id) }}">   Update your profile's picture ?</a></td>
+                                <td><a href="{{ route('myprofile.show', $users->id) }}">{{ __('text.pic_up_btn') }}</a></td>
                                 <td></td>
                                 <td></td>
-                                <td><td><a href="{{ route('myprofile.edit', $users->id) }}">Update your user's information ?</a></td></td>
+                                <td><td><a href="{{ route('myprofile.edit', $users->id) }}">{{ __('text.profile_up_btn') }}</a></td></td>
 
                             </tr>
 

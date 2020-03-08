@@ -15,10 +15,16 @@ class Language
      */
      public function handle($request, Closure $next)
      {
-         if ( \Session::has('lang')) {
-             // Récupération de la 'lang' dans Session et activation
-             \App::setLocale(\Session::get('lang'));
-         }
+          //$users = auth()->user();
+
+
+          if (isset(auth()->user()->language))
+          {
+            $l  = auth()->user()->language;
+
+            \App::setLocale($l);
+          }
+         //dd($request);
 
          return $next($request);
      }

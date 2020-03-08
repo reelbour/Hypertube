@@ -72,10 +72,10 @@
                                         @csrf
                                     </form>
                                 <!-- </div> -->
-                                @if (Auth::user()->language == 1)
-                                   <a href="locale/en"> <img src="https://www.anglais5minutes.fr/wp-content/uploads/2014/11/drapeau-anglais-1707-300x200.gif" width="25px" heigth="25px" alt=""> </a>
+                                @if (Auth::user()->language == 'fr')
+                                   <a href="locale/en"> <img src="/Public/Pictures/en.png" width="25px" heigth="25px" alt=""> </a>
                                 @else
-                                  <a href="locale/fr"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAACOCAMAAAB64AaGAAAAElBMVEX////tKTkAI5UXIpW5vdn4vcB+HZbEAAAAmElEQVR4nO3PQQ0AIBADsMGBf8uYWMKnddDsijmpuKsjWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpav1sP+YV7s+662UIAAAAASUVORK5CYII=" width="25px" heigth="25px"alt=""> </a>
+                                  <a href="locale/fr"><img src="/Public/Pictures/fr.png" width="25px" heigth="25px"alt=""> </a>
                                  @endif
 
 
