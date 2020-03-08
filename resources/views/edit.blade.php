@@ -43,7 +43,7 @@
                         <div class="field">
                             <label class="label">{{ __('text.password')}}</label>
                             <div class="control">
-                              <input class="input @error('password') is-danger @enderror" type="password" name="password" value="{{ old('password', $users->password) }}" placeholder="Your password">
+                              <input class="input @error('password') is-danger @enderror" type="password" name="password"  placeholder="Your password">
                             </div>
                             @error('title')
                                 <p class="help is-danger">{{ $message }}</p>
