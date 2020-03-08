@@ -36,4 +36,10 @@ return [
         'redirect'      => env('GITHUB_URL'),
     ],
 
+    'intra'    => [
+        'client_id'     => env('INTRA_ID'),
+        'client_secret' => env('INTRA_SECRET'),
+        'redirect'      => env('INTRA_URL'),
+    ],
+
 ];
