@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -156,9 +157,38 @@ else
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
     public function update(Request $request, $id)
     {
-        $users = auth()->user();
+
+      // dd($request);
+      // return;
+      // validator = Validator::make($request->all(), [
+      //   'name' => 'required|string|min:3,max:255',
+      //   'last_name' => 'required|string| min:3,max:255',
+      //   'email' => 'required|string|email|max:255|unique:users',
+      //   'password' => 'required|string|min:8',
+      //   ]);
+      $users = auth()->user();
+      $id = auth()->id();
+
+      $mail = User::where('email', $request->Email) -> first();
+
+      if (isset($mail) && $mail->id != $id)
+         return redirect()->back();
+      $validator = Validator::make($request->all(), [
+        'name' => 'required|string|min:3,max:25',
+        'last_name' => 'required|string|min:3,max:25',
+        'Email' => 'required|string|email',
+        'password' => 'required|string|min:8',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+
 
         $psw = Hash::make($request->password);
         // $mail = $request->Email;
