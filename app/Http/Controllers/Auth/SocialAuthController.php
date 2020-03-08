@@ -50,6 +50,9 @@ class SocialAuthController extends Controller
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_POST, true);
 
+        if (!isset($_GET['code']))
+        return redirect('/');
+
         $array = [
           "grant_type" => "authorization_code",
           "client_id" => "7cd0852136808242607c66d2ab64a711fbb4542c2a06b41fa7b727e658d57249",
