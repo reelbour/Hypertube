@@ -16,17 +16,24 @@ function getPeers(torrent, callback) {
   const socket = dgram.createSocket('udp4');
   const rawUrl = torrent.announce.toString('utf8');
 
-  const connnReq = buildConnReq();
-  udpSend(socket, connnReq, rawUrl);
+  console.log('connReq...');
+  const connReq = buildConnReq();
+  console.log('send...');
+  udpSend(socket, connReq, rawUrl);
 
   socket.on('message', response => {
     if (respType(response) === 'connect') {
-      const conResp = parseConnResp(response);
+      console.log('connResp...');
+      const connResp = parseConnResp(response);
+      console.log('announceReq...');
       const announceReq = buildAnnounceReq(connResp.connectionId);
+      console.log('send...');
       udpSend(socket, announceReq, rawUrl);
     }
     else if (respType(response) === 'announce') {
+      console.log('announceResp...');
       const announceResp = parseAnnounceResp(response);
+      console.log('end...');
       callback(announceResp.peers);
     }
   });

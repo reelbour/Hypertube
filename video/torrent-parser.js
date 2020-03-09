@@ -2,6 +2,8 @@
 
 const fs = require('fs');
 const bencode = require('bencode');
+const crypto = require('crypto');
+const bignum = require('bignum');
 
 function open(filePath) {
   const fileContent = fs.readFileSync(filePath);
@@ -11,12 +13,17 @@ function open(filePath) {
 }
 exports.open = open;
 
-function size() {
+function size(torrent) {
+  const size = torrent.info.files ?
+    torrent.info.files.map(file => file.length).reduce((a, b) => a + b) :
+    torrent.info.length;
 
+  return bignum.toBuffer(size, {size: 8});
 }
 exports.size = size;
 
-function infoHash() {
-
+function infoHash(torrent) {
+  const info = bencode.encode(torrent.info);
+  return crypto.createHash('sha1').update(info).digest();
 }
 exports.infoHash = infoHash;

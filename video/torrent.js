@@ -34,4 +34,5 @@ const torrent = torrentParser.open(fileName);
 
 tracker.getPeers(torrent, peers => {
   console.log('list of peers: ', peers);
+  console.log('info hash: ', infoHash(torrent));
 });
