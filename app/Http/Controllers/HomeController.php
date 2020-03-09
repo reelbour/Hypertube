@@ -31,8 +31,8 @@ class HomeController extends Controller
         $res = $client->request('GET', 'https://yts.mx/api/v2/list_movies.json?sort_by=download_count');
         $data = $res->getBody();
         $data = json_decode($data);
+        $movies = $data->data->movies;
 
-        dd($data->data->movies);
-        //return view('home');
+        return view('home', compact('movies'));
     }
 }
