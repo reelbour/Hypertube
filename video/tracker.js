@@ -17,7 +17,7 @@ function getPeers(torrent, callback) {
   const rawUrl = torrent.announce.toString('utf8');
 
   const connnReq = buildConnReq();
-  udpSend(socket, myMsg, rawUrl);
+  udpSend(socket, connnReq, rawUrl);
 
   socket.on('message', response => {
     if (respType(response) === 'connect') {
@@ -41,7 +41,11 @@ function udpSend(socket, message, rawUrl, callback=()=>{}) {
   socket.send(message, 0, message.length, url.port, url.host, callback);
 }
 
-function respType() {}
+function respType() {
+  const action = resp.readUInt32BE(0);
+  if (action === 0) return 'connect';
+  if (action === 1) return 'announce';
+}
 
 function buildConnReq() {
   const buf =  Buffer.alloc(16);

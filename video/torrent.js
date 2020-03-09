@@ -5,51 +5,33 @@ var die = msg => {
   process.kill(process.pid);
 };
 
-var readTorrent = fileName => {
-  const fileContent = fs.readFileSync(fileName);
-  const torrent = bencode.decode(fileContent);
-
-  return torrent;
-};
-
-// die if wrong amout of param
-if (process.argv.length != 4) die("Invalid param amount.");
-
 // requires
 const https = require('https');
 const fs = require('fs');
 const bencode = require('bencode');
+const tracker = require('./tracker');
+const torrentParser = require('./torrent-parser');
+
+// die if wrong amout of param
+if (process.argv.length != 3) die("Invalid param amount.");
 
 // dl torrent file if not exist
-var fileName = process.argv[2] + ".torrent";
-fs.access(fileName, fs.constants.F_OK, (err) => {
-  if (err) {
-    const wfile = fs.createWriteStream(fileName);
-    const request = https.get(process.argv[3], (response) => {
-      response.pipe(wfile);
-    });
-  }
-  else {
-    /*
-    ** request to the tracker
-    */
+var fileName = `${process.argv[2]}.torrent`;
+// try {
+//   fs.accessSync(fileName, fs.constants.F_OK);
+// } catch (err) {
+//   const wfile = fs.createWriteStream(fileName);
+//   const url = `https://yts.mx/torrent/download/${process.argv[2]}`;
+//   const request = https.get(url, (response) => {
+//     response.pipe(wfile);
+//   });
+// }
+//ni: make `get` syncrone to be sure the torrent file
+//    has been completely dl before doing anything.
 
-    torrent = readTorrent(fileName);
+// parse torrent
+const torrent = torrentParser.open(fileName);
 
-    // require
-    const dgram = require('dgram');
-    const Buffer = require('buffer').Buffer;
-    const urlParse = require('url').parse;
-
-    // prepare
-    const url = urlParse(torrent.announce.toString('utf8'));
-    const socket = dgram.createSocket('udp4');
-    const myMsg = Buffer.from('hello?', 'utf8');
-
-    // send request
-    socket.send(myMsg, 0, myMsg.length, url.port, url.host, () => {});
-    socket.on('message', msg => {
-      console.log('message is', msg);
-    });
-  }
+tracker.getPeers(torrent, peers => {
+  console.log('list of peers: ', peers);
 });
