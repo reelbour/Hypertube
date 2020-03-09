@@ -35,4 +35,24 @@ class HomeController extends Controller
 
         return view('home', compact('movies'));
     }
+
+    public function search(Request $string)
+    {
+      $client = new Client([
+          'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
+      ]);
+      //$stringx = "https://yts.mx/api/v2/list_movies.json?query_term=".$string->string."&sort_by=name";
+
+      $string = $string->string;
+      $x = "https://yts.mx/api/v2/list_movies.json?query_term=". "$string"  ."&sort_by=title&order_by=asc";
+      $res = $client->request('GET', $x);
+      $data = $res->getBody();
+      $data = json_decode($data);
+      $movies = $data->data->movies;
+      //sort($movies);
+      // trier movies
+      return view('home', compact('movies'));
+    //  https://yts.mx/api/v2/list_movies.json?query_term=tony&sort_by=download_count
+
+    }
 }
