@@ -19,6 +19,7 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
+        "bencode": "^2.0.1",
         "nodejs": "0.0.0"
     }
 }
