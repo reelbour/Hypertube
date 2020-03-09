@@ -15,6 +15,16 @@
                     @endif
 
                     {{ __('text.log_txt')}}
+
+                    <ul>
+                        @foreach ($movies as $movie)
+                            <li>{{$movie->title}}</li>
+                            <li>{{$movie->year}}</li>
+                            <li>{{$movie->rating}}</li>
+                            <li>{{$movie->medium_cover_image}}</li>
+                            <hr>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>
