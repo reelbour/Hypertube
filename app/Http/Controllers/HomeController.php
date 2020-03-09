@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $client = new Client([
+            'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
+        ]);
+
+        $res = $client->request('GET', 'https://yts.mx/api/v2/list_movies.json?sort_by=download_count');
+        $data = $res->getBody();
+        $data = json_decode($data);
+        $movies = $data->data->movies;
+
+        return view('home', compact('movies'));
     }
 }
