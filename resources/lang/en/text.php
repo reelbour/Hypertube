@@ -29,4 +29,5 @@ return [
   'dashboard' => 'Dashboard',
   'log_txt' => "You are logged in !",
   'user_profile' => ':user\'s profile',
+  'query' => "Search..."
 ];
