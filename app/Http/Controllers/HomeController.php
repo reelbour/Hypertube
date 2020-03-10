@@ -28,7 +28,7 @@ class HomeController extends Controller
             'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
         ]);
 
-        $res = $client->request('GET', 'https://yts.mx/api/v2/list_movies.json?sort_by=download_count');
+        $res = $client->request('GET', 'https://yts.mx/api/v2/list_movies.json?sort_by=download_count&limit=50');
         $data = $res->getBody();
         $data = json_decode($data);
         $movies = $data->data->movies;
@@ -46,7 +46,7 @@ class HomeController extends Controller
       $string = substr($string, 26);
       //pri$string->query;
       //$string = $string->query;
-      $x = "https://yts.mx/api/v2/list_movies.json?query_term=". "$string"  ."&sort_by=title&order_by=asc";
+      $x = "https://yts.mx/api/v2/list_movies.json?query_term=". "$string"  ."&limit=50&sort_by=title&order_by=asc";
       $res = $client->request('GET', $x);
       $data = $res->getBody();
       $data = json_decode($data);
