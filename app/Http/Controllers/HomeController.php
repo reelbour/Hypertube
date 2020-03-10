@@ -38,16 +38,23 @@ class HomeController extends Controller
 
     public function search(Request $string)
     {
+      $string = $string->getRequestUri();
       $client = new Client([
           'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
       ]);
-      //$stringx = "https://yts.mx/api/v2/list_movies.json?query_term=".$string->string."&sort_by=name";
 
-      $string = $string->string;
+      $string = substr($string, 26);
+      //pri$string->query;
+      //$string = $string->query;
       $x = "https://yts.mx/api/v2/list_movies.json?query_term=". "$string"  ."&sort_by=title&order_by=asc";
       $res = $client->request('GET', $x);
       $data = $res->getBody();
       $data = json_decode($data);
+
+      if (!(isset($data->data->movies)))
+      {
+          return view('home')->withErrors('No results');
+      }
       $movies = $data->data->movies;
       //sort($movies);
       // trier movies

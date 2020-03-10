@@ -29,5 +29,6 @@ return [
     'dashboard' => 'Tableau de bord',
     'log_txt' => "Vous êtes connecté",
     'user_profile' => 'Profil de :user',
+    "query" => "Rechercher un film"
 
 ];

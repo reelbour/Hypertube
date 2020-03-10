@@ -20,7 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home/search/{string}', 'HomeController@search')->name('home');
+Route::get('/home/search', 'HomeController@search')->name('home');
 
 Route::resource('myprofile', 'MyprofileController')->middleware('auth');
 

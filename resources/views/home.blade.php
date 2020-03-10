@@ -1,12 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
+
+<form class="" action="{{url('home/search')}}" method="get" style="text-align: center;">
+
+  <div class="field">
+      <label class="label">{{ __('text.query')}}</label>
+      <div class="control">
+        <input type="text" name="query">
+      </div>
+  </div>
+
+  <div class="field">
+      <div class="control">
+        <button class="button is-link">{{ __('text.send')}}</button>
+      </div>
+</form>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-
             <div class="row">
-
+              @if (isset($movies))
                 @foreach ($movies as $movie)
 
                     <div class="col-md-4">
@@ -23,6 +38,10 @@
                     </div>
 
                 @endforeach
+                @else
+                  <p>There is no results</p>
+
+              @endif
             </div>
         </div>
     </div>
