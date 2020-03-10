@@ -24,33 +24,33 @@ class HomeController extends Controller
      */
     public function index()
     {
-      // $client = new Client([
-      //     'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
-      // ]);
-      //
-      // $res = $client->request('GET', 'http://www.legittorrents.info/index.php?page=torrents&search=dead&category=1&active=1');
-      // $data = $res->getBody();
-      // header("Content-Type: text/plain");
-      // //echo json_encode(html_to_obj($html), JSON_PRETTY_PRINT);
-      // $data = json_encode($data, JSON_PRETTY_PRINT);
-      // echo ($data);
-      // return;
-      // $movies = $data->data->movies;
-      //
-      // return view('home', compact('movies'));
+      $client = new Client([
+          'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
+      ]);
 
-        $client = new Client([
-            'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
-        ]);
+      $res = $client->request('GET', 'https://eztv.io/api/get-torrents?imdb_id=0944947');
+      $data = $res->getBody();
 
-        $res = $client->request('GET', 'https://yts.mx/api/v2/list_movies.json?sort_by=download_count&limit=50');
-        $data = $res->getBody();
-        $data = json_decode($data);
-        $movies = $data->data->movies;
+      $data = json_decode($data);
+          dd($data);
 
-        return view('home', compact('movies'));
+      $movies = $data->data->movies;
+      
+      echo $movies->title;
+       // echo $movies->years;
 
+      return view('home', compact('movies'));
 
+      $client = new Client([
+           'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
+      ]);
+
+      $res = $client->request('GET', 'https://yts.mx/api/v2/list_movies.json?sort_by=download_count');
+      $data = $res->getBody();
+      $data = json_decode($data);
+      $movies = $data->data->movies;
+
+      return view('home', compact('movies'));
     }
 
     public function search(Request $string)

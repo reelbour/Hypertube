@@ -10,7 +10,7 @@
         <input type="text" name="query">
       </div>
   </div>
-<!--
+
   <form  action="#" method="post">
     <label for="genre">Choose a gender:</label>
     <select id="genre" name="carlist" form="carform">
@@ -67,7 +67,7 @@
 <form action="#" method="post">
   <label for="number">Enter a popularity s:</label>
   <input type="number" step="0.1" value="0" min="0" max="10">
-</form> -->
+</form>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -78,7 +78,7 @@
 
                     <div class="col-md-4">
                         <div class="card mb-4 shadow-sm">
-                        <a href="localhost:8888/public/movie/{{ $movie->title}}">    <img src="{{$movie->medium_cover_image}}" alt="Movie cover">   </a>
+                        <a href="localhost:8888/public/movie/{{ $movie->title}}">       </a>
                             <div class="card-body">
                                 <p class="card-text">{{$movie->title}}</p>
                                 <div class="d-flex justify-content-between align-items-center">
