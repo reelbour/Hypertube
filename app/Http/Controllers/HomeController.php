@@ -24,6 +24,21 @@ class HomeController extends Controller
      */
     public function index()
     {
+      // $client = new Client([
+      //     'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
+      // ]);
+      //
+      // $res = $client->request('GET', 'http://www.legittorrents.info/index.php?page=torrents&search=dead&category=1&active=1');
+      // $data = $res->getBody();
+      // header("Content-Type: text/plain");
+      // //echo json_encode(html_to_obj($html), JSON_PRETTY_PRINT);
+      // $data = json_encode($data, JSON_PRETTY_PRINT);
+      // echo ($data);
+      // return;
+      // $movies = $data->data->movies;
+      //
+      // return view('home', compact('movies'));
+
         $client = new Client([
             'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
         ]);
@@ -34,6 +49,8 @@ class HomeController extends Controller
         $movies = $data->data->movies;
 
         return view('home', compact('movies'));
+
+
     }
 
     public function search(Request $string)
