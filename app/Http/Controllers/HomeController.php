@@ -73,22 +73,22 @@ class HomeController extends Controller
             }
         }
 
-        $api = "http://www.omdbapi.com/?apikey=36cc8909&s=" . $query;
+        $api = "http://www.omdbapi.com/?apikey=36cc8909&type=series&s=" . $query;
         $res = $client->request('GET', $api);
         $data = $res->getBody();
         $data = json_decode($data);
         if (isset($data->Search)) {
+            $eps = [];
             foreach ($data->Search as $res) {
                 $api = "https://eztv.io/api/get-torrents?imdb_id=" . substr($res->imdbID, 2);
                 $res = $client->request('GET', $api);
                 $data = $res->getBody();
                 $data = json_decode($data);
                 if (isset($data->torrents)) {
-                    $eps = [];
                     foreach ($data->torrents as $res) {
-                        if (in_array($res->season . $res->episode, $eps))
+                        if (in_array(substr($res->title, 0, 5) . $res->season . $res->episode, $eps))
                             continue;
-                        array_push($eps, $res->season . $res->episode);
+                        array_push($eps, substr($res->title, 0, 5) . $res->season . $res->episode);
                         array_push($movies, (object)[
                             'title' => $res->title,
                             'year' => date('Y', $res->date_released_unix),
