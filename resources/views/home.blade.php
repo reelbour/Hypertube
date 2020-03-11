@@ -11,7 +11,7 @@
       </div>
   </div>
 
-  <form  action="#" method="post">
+  <!-- <form  action="#" method="post">
     <label for="genre">Choose a gender:</label>
     <select id="genre" name="carlist" form="carform">
       <option value=""></option>
@@ -67,7 +67,7 @@
 <form action="#" method="post">
   <label for="number">Enter a popularity s:</label>
   <input type="number" step="0.1" value="0" min="0" max="10">
-</form>
+</form> -->
 
 <div class="container">
     <div class="row justify-content-center">
@@ -75,12 +75,15 @@
             <div class="row">
               @if (isset($movies))
                 @foreach ($movies as $movie)
-
                     <div class="col-md-4">
                         <div class="card mb-4 shadow-sm">
-                        <a href="localhost:8888/public/movie/{{ $movie->title}}">       </a>
+                        <a href="localhost:8888/public/movie/{{$movie->title}}">
+                          <img src="{{$movie->medium_cover_image}}" alt="Movie cover" width="100%">
+                        </a>
                             <div class="card-body">
-                                <p class="card-text">{{$movie->title}}</p>
+                                <p class="card-text">
+                                  <a href="localhost:8888/public/movie/{{$movie->title}}">{{$movie->title}}</a>
+                                </p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">{{$movie->year}}</small>
                                     <small class="text-muted">{{$movie->rating}}</small>
@@ -88,11 +91,9 @@
                             </div>
                         </div>
                     </div>
-
                 @endforeach
                 @else
                   <p>There is no results</p>
-
               @endif
             </div>
         </div>

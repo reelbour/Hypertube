@@ -61,17 +61,8 @@ class HomeController extends Controller
         $data = $res->getBody();
         $data = json_decode($data);
         $movies = [];
-        if (isset($data->data->movies)) {
-            foreach($data->data->movies as $res) {
-                array_push($movies, (object)[
-                    'title' => $res->title,
-                    'year' => $res->year,
-                    'rating' => $res->rating,
-                    'medium_cover_image' => $res->medium_cover_image,
-                    'torrents' => $res->torrents
-                ]);
-            }
-        }
+        if (isset($data->data->movies))
+            $movies = $data->data->movies;
 
         $api = "http://www.omdbapi.com/?apikey=36cc8909&s=" . $query;
         $res = $client->request('GET', $api);
