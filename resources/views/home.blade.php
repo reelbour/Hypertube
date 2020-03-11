@@ -22,7 +22,7 @@
       <option value="Horror">Horror</option>
 
     </select>
-    <br>
+    <!-- <br>
     <label for="popularity">Choose between a car:</label>
     <select id="popularity" name="carlist" form="carform">
       <option value=""></option>
@@ -30,7 +30,7 @@
       <option value="saab">Saab</option>
       <option value="opel">Opel</option>
       <option value="audi">Audi</option>
-    </select>
+    </select> -->
   </form>
 
   <div class="field">
@@ -39,7 +39,7 @@
       </div>
 </form>
 
-
+<!--
 <form>
   <label for="vol">popularity (between 0 and 10):</label>
   <input type="range" id="vol" name="vol" min="0.0" max="10">
@@ -67,7 +67,7 @@
 <form action="#" method="post">
   <label for="number">Enter a popularity s:</label>
   <input type="number" step="0.1" value="0" min="0" max="10">
-</form>
+</form> -->
 
 <div class="container">
     <div class="row justify-content-center">
@@ -78,7 +78,7 @@
 
                     <div class="col-md-4">
                         <div class="card mb-4 shadow-sm">
-                        <a href="localhost:8888/public/movie/{{ $movie->title}}">       </a>
+                        <a href="localhost:8888/public/movie/{{ $movie->title}}">     <img src="{{$movie->medium_cover_image}}" width='220px;' heigth='300px;'>   </a>
                             <div class="card-body">
                                 <p class="card-text">{{$movie->title}}</p>
                                 <div class="d-flex justify-content-between align-items-center">
