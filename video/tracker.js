@@ -10,34 +10,64 @@ const Buffer = require('buffer').Buffer;
 const urlParse = require('url').parse;
 const crypto = require('crypto');
 const torrentParser = require('./torrent-parser');
-// const util = require('util');
+const EventEmitter = require('events');
 const staticVal = require('./staticVal');
 
 
 // exported functions
 
-function getPeers(torrent, callback, port=6883) {
-  const rawUrl = 'udp://tracker.leechers-paradise.org:6969'; // torrent.announce.toString('utf8');
+function getPeers(torrent, callback) {
+  // form rawUrlList
+  var rawUrlList;
+  if (torrent.hasOwnProperty('announce-list')) {
+    rawUrlList = torrent['announce-list'].map(announce => { announce.toString('utf8'); });
+    rawUrlList[ rawUrlList.length ] = torrent.announce.toString('utf8');
+  }
+  else {
+    rawUrlList = array( torrent.announce.toString('utf8') );
+  }
+  console.log('rawUrlList: ', rawUrlList);
+
+  const trackerEmitter = new TrackerEmitter();
+  trackerInteraction(torrent, rawUrlList, trackerEmitter, callback);
+}
+exports.getPeers = getPeers;
+
+
+// private functions
+
+class TrackerEmitter extends EventEmitter {}
+
+function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, timeout=1000) {
+  if (rawUrlList.lengtn == 0) {
+    trackerEmitter.emit('error', new Error('No valid tracker'));
+  }
+
   const socket = dgram.createSocket('udp4');
-  //socket.bind(port);
+  const rawUrl = rawUrlList.pop();
+
+  var tiot = setTimeout(() => {
+    console.log('timeout!');
+    socket.close();
+    trackerInteraction(torrent, rawUrlList, trackerEmitter, callback);
+  }, timeout);
 
   console.log('connReq...');
   const connReq = buildConnReq();
   console.log('send...');
   udpSend(socket, connReq, rawUrl, () => {
-    console.log('sent: ');
-    console.log('- socket: ', socket);
-    console.log('- connReq: ', connReq);
-    console.log('- rawUrl: ', rawUrl);
+    console.log('sent to: ', rawUrl);
+    // console.log('- socket: ', socket);
+    // console.log('- connReq: ', connReq);
+    // console.log('- rawUrl: ', rawUrl);
   });
 
   socket.on('message', response => {
-    //console.log('message: ', response);
     if (respType(response) === 'connect') {
       console.log('connResp...');
       const connResp = parseConnResp(response);
       console.log('announceReq...');
-      const announceReq = buildAnnounceReq(connResp.connectionId, torrent, port);
+      const announceReq = buildAnnounceReq(connResp.connectionId, torrent, socket.address().port);
       console.log('send...');
       udpSend(socket, announceReq, rawUrl, () => { console.log('sent: '); });
     }
@@ -45,6 +75,8 @@ function getPeers(torrent, callback, port=6883) {
       console.log('announceResp...');
       const announceResp = parseAnnounceResp(response);
       console.log('end...');
+      clearTimeout(tiot);
+      socket.close();
       callback(announceResp.peers);
     }
   });
@@ -59,10 +91,6 @@ function getPeers(torrent, callback, port=6883) {
     console.log('error: ', err);
   });
 }
-exports.getPeers = getPeers;
-
-
-// private functions
 
 function udpSend(socket, message, rawUrl, callback=()=>{}) {
   const url = urlParse(rawUrl);
