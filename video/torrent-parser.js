@@ -14,9 +14,11 @@ function open(filePath) {
 exports.open = open;
 
 function size(torrent) {
-  const size = torrent.info.files ?
-    torrent.info.files.map(file => file.length).reduce((a, b) => a + b) :
-    torrent.info.length;
+  if (torrent.info.hasOwnProperty('files')) {
+    const size = torrent.info.files.map(file => file.length).reduce((a, b) => a + b);
+  } else {
+    const size = torrent.info.length;
+  }
 
   return bignum.toBuffer(size, {size: 8});
 }

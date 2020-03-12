@@ -31,8 +31,8 @@ var fileName = `${process.argv[2]}.torrent`;
 
 // parse torrent
 const torrent = torrentParser.open(fileName);
-
+//console.log('torrent: ', torrent);
 tracker.getPeers(torrent, peers => {
   console.log('list of peers: ', peers);
-  console.log('info hash: ', infoHash(torrent));
+  console.log('info hash: ', torrentParser.infoHash(torrent));
 });

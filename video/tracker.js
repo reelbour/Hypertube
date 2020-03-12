@@ -1,5 +1,8 @@
 /*jshint esversion: 6 */
 
+//ni: server will crash on any invalid torrent file or invalid server response!
+//    need to be a bit more resiliant
+
 // require
 
 const dgram = require('dgram');
@@ -7,28 +10,36 @@ const Buffer = require('buffer').Buffer;
 const urlParse = require('url').parse;
 const crypto = require('crypto');
 const torrentParser = require('./torrent-parser');
-const util = require('./util');
+// const util = require('util');
+const staticVal = require('./staticVal');
 
 
 // exported functions
 
-function getPeers(torrent, callback) {
+function getPeers(torrent, callback, port=6883) {
+  const rawUrl = 'udp://tracker.leechers-paradise.org:6969'; // torrent.announce.toString('utf8');
   const socket = dgram.createSocket('udp4');
-  const rawUrl = torrent.announce.toString('utf8');
+  //socket.bind(port);
 
   console.log('connReq...');
   const connReq = buildConnReq();
   console.log('send...');
-  udpSend(socket, connReq, rawUrl);
+  udpSend(socket, connReq, rawUrl, () => {
+    console.log('sent: ');
+    console.log('- socket: ', socket);
+    console.log('- connReq: ', connReq);
+    console.log('- rawUrl: ', rawUrl);
+  });
 
   socket.on('message', response => {
+    //console.log('message: ', response);
     if (respType(response) === 'connect') {
       console.log('connResp...');
       const connResp = parseConnResp(response);
       console.log('announceReq...');
-      const announceReq = buildAnnounceReq(connResp.connectionId);
+      const announceReq = buildAnnounceReq(connResp.connectionId, torrent, port);
       console.log('send...');
-      udpSend(socket, announceReq, rawUrl);
+      udpSend(socket, announceReq, rawUrl, () => { console.log('sent: '); });
     }
     else if (respType(response) === 'announce') {
       console.log('announceResp...');
@@ -36,6 +47,16 @@ function getPeers(torrent, callback) {
       console.log('end...');
       callback(announceResp.peers);
     }
+  });
+
+  socket.on('listening', () => {
+    console.log('listening...');
+  });
+  socket.on('close', () => {
+    console.log('close');
+  });
+  socket.on('error', err => {
+    console.log('error: ', err);
   });
 }
 exports.getPeers = getPeers;
@@ -45,17 +66,17 @@ exports.getPeers = getPeers;
 
 function udpSend(socket, message, rawUrl, callback=()=>{}) {
   const url = urlParse(rawUrl);
-  socket.send(message, 0, message.length, url.port, url.host, callback);
+  socket.send(message, 0, message.length, url.port, url.hostname, callback);
 }
 
-function respType() {
+function respType(resp) {
   const action = resp.readUInt32BE(0);
   if (action === 0) return 'connect';
   if (action === 1) return 'announce';
 }
 
 function buildConnReq() {
-  const buf =  Buffer.alloc(16);
+  const buf =  Buffer.allocUnsafe(16);
 
   // setting the first 8 bytes to 0x41727101980 (= connection_id)
   buf.writeUInt32BE(0x417, 0);
@@ -94,7 +115,7 @@ function buildAnnounceReq(connId, torrent, port=6881) {//ni: port for torrent
   // info hash
   torrentParser.infoHash(torrent).copy(buf, 16);
   // peerId
-  util.genId().copy(buf, 36);
+  staticVal.genId().copy(buf, 36);
   // downloaded
   Buffer.alloc(8).copy(buf, 56);
   // left
