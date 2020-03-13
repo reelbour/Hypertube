@@ -19,17 +19,20 @@ const staticVal = require('./staticVal');
 function getPeers(torrent, callback) {
   // form rawUrlList
   var rawUrlList;
-  if (torrent.hasOwnProperty('announce-list')) {
-    rawUrlList = torrent['announce-list'].map(announce => { announce.toString('utf8'); });
-    rawUrlList[ rawUrlList.length ] = torrent.announce.toString('utf8');
-  }
-  else {
-    rawUrlList = array( torrent.announce.toString('utf8') );
-  }
+  // if (torrent.hasOwnProperty('announce-list')) {
+  //   rawUrlList = torrent['announce-list'].map(announce => { announce.pop().toString('utf8'); });
+  // }
+  // else {
+  //   rawUrlList = [ torrent.announce.toString('utf8') ];
+  // }
+  rawUrlList = [ "udp://tracker.coppersurfer.tk:6969" ];
   console.log('rawUrlList: ', rawUrlList);
 
   const trackerEmitter = new TrackerEmitter();
   trackerInteraction(torrent, rawUrlList, trackerEmitter, callback);
+  trackerEmitter.on('error', err => {
+    console.log('error: ', err);
+  });
 }
 exports.getPeers = getPeers;
 
@@ -38,13 +41,15 @@ exports.getPeers = getPeers;
 
 class TrackerEmitter extends EventEmitter {}
 
-function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, timeout=1000) {
-  if (rawUrlList.lengtn == 0) {
-    trackerEmitter.emit('error', new Error('No valid tracker'));
+function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, timeout=5000) {
+  if (rawUrlList.length == 0) {
+    trackerEmitter.emit('error', 'No valid tracker');
+    return;
   }
 
   const socket = dgram.createSocket('udp4');
   const rawUrl = rawUrlList.pop();
+  console.log('rawUrlList after pop: ', rawUrlList);
 
   var tiot = setTimeout(() => {
     console.log('timeout!');
