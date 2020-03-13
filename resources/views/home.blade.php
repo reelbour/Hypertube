@@ -2,26 +2,43 @@
 
 @section('content')
 <form class="" action="{{url('home/search')}}" method="get" style="text-align: center;">
-  <div class="field">
-    <div class="control">
-        <input type="text" name="query" placeholder="{{ __('text.query')}}"
-            value="{{ $query ?? '' }}">
-        <button type="submit" class="btn btn-primary">Search</button>
-    </div>
-  </div>
     <div class="field">
         <div class="control">
-            <select name="sort">
-                <option selected>Sort by</option>
-                <option name="nameasc" value="nameasc">Name (asc)</option>
-                <option name="namedesc" value="namedesc">Name (desc)</option>
-                <option name="yearasc" value="yearasc">Year (asc)</option>
-                <option name="yeardesc" value="yeardesc">Year (desc)</option>
-                <option name="imdbasc" value="imdbasc">IMDb note (asc)</option>
-                <option name="imdbdesc" value="imdbdesc">IMDb note (desc)</option>
-            </select>
+            <input type="text" name="query" placeholder="{{ __('text.query')}}"
+                value="{{ $query ?? '' }}">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+        <select name="sort">
+            <option selected>Sort by</option>
+            <option name="nameasc" value="nameasc">Name (asc)</option>
+            <option name="namedesc" value="namedesc">Name (desc)</option>
+            <option name="yearasc" value="yearasc">Year (asc)</option>
+            <option name="yeardesc" value="yeardesc">Year (desc)</option>
+            <option name="imdbasc" value="imdbasc">IMDb note (asc)</option>
+            <option name="imdbdesc" value="imdbdesc">IMDb note (desc)</option>
+        </select>
 
-            <button type="submit" class="btn btn-secondary btn-sm">Sort</button>
+        <button type="submit" class="btn btn-secondary btn-sm">Sort</button>
+    </div>
+    <input type="radio" id="filtersCheck" onclick="showFilters()">
+    <label for="filtersCheck">
+        Filters
+    </label>
+    <div id="filters" style="display:none;">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="type" id="radio1" value="movies">
+            <label class="form-check-label" for="radio1">Movies</label>
+
+            <input class="form-check-input" type="radio" name="type" id="radio2" value="series">
+            <label class="form-check-label" for="radio2">Series</label>
+        </div>
+        <div>
+            <label id="imdblabel" for="imdb">IMDb note from X to 10:</label>
+            <input id="imdb" type="range" min="0" max="10" onchange="imdbChange()">
+        </div>
+        <div>
+            <label id="yearlabel" for="year">Year from X to 2020:</label>
+            <input id="year" type="range" min="1940" max="2020" onchange="yearChange()">
         </div>
     </div>
 </form>
@@ -56,4 +73,19 @@
         </div>
     </div>
 </div>
+<script>
+    function showFilters() {
+        document.getElementById("filters").style.display = "block";
+    }
+
+    function imdbChange() {
+        let val = document.getElementById("imdb").value;
+        document.getElementById("imdblabel").innerHTML = "IMDb note from " + val + " to 10:";
+    }
+
+    function yearChange() {
+        let val = document.getElementById("year").value;
+        document.getElementById("yearlabel").innerHTML = "Year from " + val + " to 2020:";
+    }
+</script>
 @endsection
