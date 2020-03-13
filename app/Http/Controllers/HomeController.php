@@ -24,34 +24,38 @@ class HomeController extends Controller
      */
     public function index()
     {
-      $client = new Client([
-          'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
-      ]);
+        $client = new Client([
+            'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
+        ]);
 
-      $res = $client->request('GET', 'https://eztv.io/api/get-torrents?imdb_id=1520211');
-      $data = $res->getBody();
+        $res = $client->request('GET', 'https://yts.mx/api/v2/list_movies.json?sort_by=download_count&limit=15');
+        $data = $res->getBody();
+        $data = json_decode($data);
+        $movies = [];
+        if (isset($data->data->movies)) {
+            foreach($data->data->movies as $res) {
+                array_push($movies, (object)[
+                    'title' => $res->title,
+                    'year' => $res->year,
+                    'rating' => $res->rating,
+                    'medium_cover_image' => $res->medium_cover_image,
+                    'torrents' => $res->torrents
+                ]);
+            }
+        }
 
-      $data = json_decode($data);
-          //dd($data);
-
-      //return view('home', compact('movies'));
-
-      $client = new Client([
-           'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
-      ]);
-
-      $res = $client->request('GET', 'https://yts.mx/api/v2/list_movies.json?sort_by=download_count&limit=15');
-      $data = $res->getBody();
-      $data = json_decode($data);
-      $movies = $data->data->movies;
-
-      return view('home', compact('movies'));
+        if (isset($_GET['sort'])) {
+            sort($movies);
+            $movies = $this->dispatch_sort($_GET['sort'], $movies);
+        }
+        return view('home', compact('movies'));
     }
 
     public function search(Request $string)
     {
-        $search = $string->getRequestUri();
-        $query = substr($search, 36);
+        $query = $_GET['query'];
+        if ($query === '')
+            return $this->index();
         $client = new Client([
             'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
         ]);
@@ -103,7 +107,77 @@ class HomeController extends Controller
 
         if (!isset($movies[0]))
             return view('home')->withErrors('No results');
+
         sort($movies);
-        return view('home', compact('movies'));
+        if (isset($_GET['sort']))
+            $movies = $this->dispatch_sort($_GET['sort'], $movies);
+        return view('home', compact('movies', 'query'));
+    }
+
+    private function dispatch_sort($sort, $movies) {
+        switch ($sort) {
+            case 'nameasc':
+                return $movies;
+            case 'namedesc':
+                return array_reverse($movies);
+            case 'yearasc':
+                return $this->sort_yearasc($movies);
+            case 'yeardesc':
+                return $this->sort_yeardesc($movies);
+            case 'imdbasc':
+                return $this->sort_imdbasc($movies);
+            case 'imdbdesc':
+                return $this->sort_imdbdesc($movies);
+            default:
+                return $movies;
+        }
+    }
+
+    private function sort_yearasc($movies) {
+        for ($i = 0; $i < (count($movies) - 1); $i++) {
+            if ($movies[$i]->year > $movies[$i + 1]->year) {
+                $tmp = $movies[$i];
+                $movies[$i] = $movies[$i + 1];
+                $movies[$i + 1] = $tmp;
+                $i = -1;
+            }
+        }
+        return $movies;
+    }
+
+    private function sort_yeardesc($movies) {
+        for ($i = 0; $i < (count($movies) - 1); $i++) {
+            if ($movies[$i]->year < $movies[$i + 1]->year) {
+                $tmp = $movies[$i];
+                $movies[$i] = $movies[$i + 1];
+                $movies[$i + 1] = $tmp;
+                $i = -1;
+            }
+        }
+        return $movies;
+    }
+
+    private function sort_imdbasc($movies) {
+        for ($i = 0; $i < (count($movies) - 1); $i++) {
+            if ($movies[$i]->rating > $movies[$i + 1]->rating) {
+                $tmp = $movies[$i];
+                $movies[$i] = $movies[$i + 1];
+                $movies[$i + 1] = $tmp;
+                $i = -1;
+            }
+        }
+        return $movies;
+    }
+
+    private function sort_imdbdesc($movies) {
+        for ($i = 0; $i < (count($movies) - 1); $i++) {
+            if ($movies[$i]->rating < $movies[$i + 1]->rating) {
+                $tmp = $movies[$i];
+                $movies[$i] = $movies[$i + 1];
+                $movies[$i + 1] = $tmp;
+                $i = -1;
+            }
+        }
+        return $movies;
     }
 }
