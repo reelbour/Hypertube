@@ -12,7 +12,7 @@
     <div class="field">
         <div class="control">
             <select name="sort">
-                <option selected>{{ $_GET['sort'] ?? 'Sort by' }}</option>
+                <option selected>Sort by</option>
                 <option name="nameasc" value="nameasc">Name (asc)</option>
                 <option name="namedesc" value="namedesc">Name (desc)</option>
                 <option name="yearasc" value="yearasc">Year (asc)</option>

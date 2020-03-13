@@ -45,8 +45,9 @@ class HomeController extends Controller
         }
 
         if (isset($_GET['sort'])) {
+            $default = $movies;
             sort($movies);
-            $movies = $this->dispatch_sort($_GET['sort'], $movies);
+            $movies = $this->dispatch_sort($_GET['sort'], $movies, $default);
         }
         return view('home', compact('movies'));
     }
@@ -111,10 +112,10 @@ class HomeController extends Controller
         sort($movies);
         if (isset($_GET['sort']))
             $movies = $this->dispatch_sort($_GET['sort'], $movies);
-        return view('home', compact('movies', 'query'));
+        return view('home', compact('movies'));
     }
 
-    private function dispatch_sort($sort, $movies) {
+    private function dispatch_sort($sort, $movies, $default) {
         switch ($sort) {
             case 'nameasc':
                 return $movies;
@@ -129,7 +130,7 @@ class HomeController extends Controller
             case 'imdbdesc':
                 return $this->sort_imdbdesc($movies);
             default:
-                return $movies;
+                return $default;
         }
     }
 
