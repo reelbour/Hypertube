@@ -111,8 +111,8 @@ class HomeController extends Controller
 
         sort($movies);
         if (isset($_GET['sort']))
-            $movies = $this->dispatch_sort($_GET['sort'], $movies);
-        return view('home', compact('movies'));
+            $movies = $this->dispatch_sort($_GET['sort'], $movies, $movies);
+        return view('home', compact('movies', 'query'));
     }
 
     private function dispatch_sort($sort, $movies, $default) {
