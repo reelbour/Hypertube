@@ -39,7 +39,8 @@ class HomeController extends Controller
                     'year' => $res->year,
                     'rating' => $res->rating,
                     'medium_cover_image' => $res->medium_cover_image,
-                    'torrents' => $res->torrents
+                    'torrents' => $res->torrents,
+                    'genres' => $res->genres
                 ]);
             }
         }
@@ -48,12 +49,18 @@ class HomeController extends Controller
             $default = $movies;
             sort($movies);
             $movies = $this->dispatch_sort($_GET['sort'], $movies, $default);
+
+            if (isset($_GET['filters']))
+                $movies = $this->filter($movies);
+            if (isset($_GET['type']) && $_GET['type'] === 'series')
+                $movies = [];
         }
         return view('home', compact('movies'));
     }
 
     public function search(Request $string)
     {
+        $movies = [];
         $query = $_GET['query'];
         if ($query === '')
             return $this->index();
@@ -61,46 +68,51 @@ class HomeController extends Controller
             'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
         ]);
 
-        $api = "https://yts.mx/api/v2/list_movies.json?query_term=". "$query"  ."&limit=50&sort_by=title&order_by=asc";
-        $res = $client->request('GET', $api);
-        $data = $res->getBody();
-        $data = json_decode($data);
-        $movies = [];
-        if (isset($data->data->movies)) {
-            foreach($data->data->movies as $res) {
-                array_push($movies, (object)[
-                    'title' => $res->title,
-                    'year' => $res->year,
-                    'rating' => $res->rating,
-                    'medium_cover_image' => $res->medium_cover_image,
-                    'torrents' => $res->torrents
-                ]);
+        if (!isset($_GET['type']) || (isset($_GET['type']) && $_GET['type'] === 'movies')) {
+            $api = "https://yts.mx/api/v2/list_movies.json?query_term=". "$query"  ."&limit=50&sort_by=title&order_by=asc";
+            $res = $client->request('GET', $api);
+            $data = $res->getBody();
+            $data = json_decode($data);
+            if (isset($data->data->movies)) {
+                foreach($data->data->movies as $res) {
+                    array_push($movies, (object)[
+                        'title' => $res->title,
+                        'year' => $res->year,
+                        'rating' => $res->rating,
+                        'medium_cover_image' => $res->medium_cover_image,
+                        'torrents' => $res->torrents,
+                        'genres' => $res->genres
+                    ]);
+                }
             }
         }
 
-        $api = "http://www.omdbapi.com/?apikey=36cc8909&type=series&s=" . $query;
-        $res = $client->request('GET', $api);
-        $data = $res->getBody();
-        $data = json_decode($data);
-        if (isset($data->Search)) {
-            $eps = [];
-            foreach ($data->Search as $res) {
-                $api = "https://eztv.io/api/get-torrents?imdb_id=" . substr($res->imdbID, 2);
-                $res = $client->request('GET', $api);
-                $data = $res->getBody();
-                $data = json_decode($data);
-                if (isset($data->torrents)) {
-                    foreach ($data->torrents as $res) {
-                        if (in_array(substr($res->title, 0, 5) . $res->season . $res->episode, $eps))
-                            continue;
-                        array_push($eps, substr($res->title, 0, 5) . $res->season . $res->episode);
-                        array_push($movies, (object)[
-                            'title' => $res->title,
-                            'year' => date('Y', $res->date_released_unix),
-                            'medium_cover_image' => $res->small_screenshot,
-                            'torrents' => $res->torrent_url,
-                            'rating' => ''
-                        ]);
+        if (!isset($_GET['type']) || (isset($_GET['type']) && $_GET['type'] === 'series')) {
+            $api = "http://www.omdbapi.com/?apikey=36cc8909&type=series&s=" . $query;
+            $res = $client->request('GET', $api);
+            $data = $res->getBody();
+            $data = json_decode($data);
+            if (isset($data->Search)) {
+                $eps = [];
+                foreach ($data->Search as $res) {
+                    $api = "https://eztv.io/api/get-torrents?imdb_id=" . substr($res->imdbID, 2);
+                    $res = $client->request('GET', $api);
+                    $data = $res->getBody();
+                    $data = json_decode($data);
+                    if (isset($data->torrents)) {
+                        foreach ($data->torrents as $res) {
+                            if (in_array(substr($res->title, 0, 5) . $res->season . $res->episode, $eps))
+                                continue;
+                            array_push($eps, substr($res->title, 0, 5) . $res->season . $res->episode);
+                            array_push($movies, (object)[
+                                'title' => $res->title,
+                                'year' => date('Y', $res->date_released_unix),
+                                'medium_cover_image' => $res->small_screenshot,
+                                'torrents' => [$res->torrent_url],
+                                'rating' => '',
+                                'genres' => []
+                            ]);
+                        }
                     }
                 }
             }
@@ -110,9 +122,41 @@ class HomeController extends Controller
             return view('home')->withErrors('No results');
 
         sort($movies);
+        if (isset($_GET['filters']))
+            $movies = $this->filter($movies);
         if (isset($_GET['sort']))
             $movies = $this->dispatch_sort($_GET['sort'], $movies, $movies);
         return view('home', compact('movies', 'query'));
+    }
+
+    private function filter($movies) {
+        $new = [];
+        $year = (int) $_GET['year'];
+
+        if (isset($_GET['imdb']) && !isset($_GET['genre'])) {
+            $imdb = (int) $_GET['imdb'];
+            foreach ($movies as $mov)
+                if ($mov->rating >= $imdb && $mov->year >= $year)
+                    array_push($new, $mov);
+        } else if (isset($_GET['genre']) && !isset($_GET['imdb'])) {
+            foreach ($movies as $mov)
+                foreach ($_GET['genre'] as $genre)
+                    if ($mov->year >= $year && in_array($genre, $mov->genres))
+                        array_push($new, $mov);
+        } else if (isset($_GET['imdb']) && isset($_GET['genre'])) {
+            $imdb = (int) $_GET['imdb'];
+            foreach ($movies as $mov)
+                foreach ($_GET['genre'] as $genre)
+                    if ($mov->rating >= $imdb && $mov->year >= $year
+                    && in_array($genre, $mov->genres))
+                        array_push($new, $mov);
+        } else {
+            foreach ($movies as $mov)
+                if ($mov->year >= $year)
+                    array_push($new, $mov);
+        }
+
+        return $new;
     }
 
     private function dispatch_sort($sort, $movies, $default) {

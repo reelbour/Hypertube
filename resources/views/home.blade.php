@@ -20,7 +20,7 @@
 
         <button type="submit" class="btn btn-secondary btn-sm">{{ __('text.sortbtn') }}</button>
     </div>
-    <input type="radio" id="filtersCheck" onclick="showFilters()">
+    <input type="radio" id="filtersCheck" name="filters" onclick="showFilters()">
     <label for="filtersCheck">
         {{ __('text.filters') }}
     </label>
@@ -45,32 +45,32 @@
             <input id="year" type="range" min="1940" max="2020" name="year" onchange="yearChange()" disabled>
         </div>
         <select id="genre" name="genre[]" style="display:none" multiple>
-            <option name="action" value="action">{{ __('text.action') }}</option>
-            <option name="adventure" value="adventure">{{ __('text.action') }}</option>
-            <option name="animation" value="animation">{{ __('text.animation') }}</option>
-            <option name="biography" value="biography">{{ __('text.biography') }}</option>
-            <option name="comedy" value="comedy">{{ __('text.comedy') }}</option>
-            <option name="crime" value="crime">{{ __('text.crime') }}</option>
-            <option name="documentary" value="documentary">{{ __('text.documentary') }}</option>
-            <option name="drama" value="drama">{{ __('text.drama') }}</option>
-            <option name="family" value="family">{{ __('text.family') }}</option>
-            <option name="fantasy" value="fantasy">{{ __('text.fantasy') }}</option>
-            <option name="gameshow" value="gameshow">{{ __('text.gameshow') }}</option>
-            <option name="history" value="history">{{ __('text.history') }}</option>
-            <option name="horror" value="horror">{{ __('text.horror') }}</option>
-            <option name="music" value="music">{{ __('text.music') }}</option>
-            <option name="musical" value="musical">{{ __('text.musical') }}</option>
-            <option name="mistery" value="mistery">{{ __('text.mistery') }}</option>
-            <option name="news" value="news">{{ __('text.news') }}</option>
-            <option name="reality-tv" value="reality-tv">{{ __('text.reality-tv') }}</option>
-            <option name="romance" value="romance">{{ __('text.romance') }}</option>
-            <option name="sci-fi" value="sci-fi">{{ __('text.sci-fi') }}</option>
-            <option name="sport" value="sport">{{ __('text.sport') }}</option>
-            <option name="superhero" value="superhero">{{ __('text.superhero') }}</option>
-            <option name="talkshow" value="talkshow">{{ __('text.talkshow') }}</option>
-            <option name="thriller" value="thriller">{{ __('text.thriller') }}</option>
-            <option name="war" value="war">{{ __('text.war') }}</option>
-            <option name="western" value="western">{{ __('text.western') }}</option>
+            <option name="action" value="Action">{{ __('text.action') }}</option>
+            <option name="adventure" value="Adventure">{{ __('text.action') }}</option>
+            <option name="animation" value="Animation">{{ __('text.animation') }}</option>
+            <option name="biography" value="Biography">{{ __('text.biography') }}</option>
+            <option name="comedy" value="Comedy">{{ __('text.comedy') }}</option>
+            <option name="crime" value="Crime">{{ __('text.crime') }}</option>
+            <option name="documentary" value="Documentary">{{ __('text.documentary') }}</option>
+            <option name="drama" value="Drama">{{ __('text.drama') }}</option>
+            <option name="family" value="Family">{{ __('text.family') }}</option>
+            <option name="fantasy" value="Fantasy">{{ __('text.fantasy') }}</option>
+            <option name="gameshow" value="Gameshow">{{ __('text.gameshow') }}</option>
+            <option name="history" value="History">{{ __('text.history') }}</option>
+            <option name="horror" value="Horror">{{ __('text.horror') }}</option>
+            <option name="music" value="Music">{{ __('text.music') }}</option>
+            <option name="musical" value="Musical">{{ __('text.musical') }}</option>
+            <option name="mistery" value="Mistery">{{ __('text.mistery') }}</option>
+            <option name="news" value="News">{{ __('text.news') }}</option>
+            <option name="reality-tv" value="Reality-tv">{{ __('text.reality-tv') }}</option>
+            <option name="romance" value="Romance">{{ __('text.romance') }}</option>
+            <option name="sci-fi" value="Sci-fi">{{ __('text.sci-fi') }}</option>
+            <option name="sport" value="Sport">{{ __('text.sport') }}</option>
+            <option name="superhero" value="Superhero">{{ __('text.superhero') }}</option>
+            <option name="talkshow" value="Talkshow">{{ __('text.talkshow') }}</option>
+            <option name="thriller" value="Thriller">{{ __('text.thriller') }}</option>
+            <option name="war" value="War">{{ __('text.war') }}</option>
+            <option name="western" value="Western">{{ __('text.western') }}</option>
         </select>
 
         <button type="submit" class="btn btn-secondary btn-sm">{{ __('text.filterbtn') }}</button>
@@ -81,7 +81,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="row">
-                @if (isset($movies))
+                @if (isset($movies[0]))
                     @foreach ($movies as $movie)
                         <div class="col-md-4">
                             <div class="card mb-4 shadow-sm">
@@ -101,7 +101,7 @@
                         </div>
                     @endforeach
                 @else
-                    <p>There is no results</p>
+                    <p>{{ __('text.noresult') }}</p>
                 @endif
             </div>
         </div>
