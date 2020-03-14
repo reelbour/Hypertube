@@ -35,7 +35,7 @@ const torrent = torrentParser.open(fileName);
 
 console.log('torrent: ', torrent);
 tracker.getPeers(torrent, peers => {
-  const pieces = new Pieces(torrent.info.pieces.length / 20);
+  const pieces = new Pieces(torrent);
   console.log('list of peers: ', peers);
   console.log('info hash: ', torrentParser.infoHash(torrent));
   peers.forEach(peer => download(peer, torrent, pieces));
