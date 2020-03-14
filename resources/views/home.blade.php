@@ -34,7 +34,7 @@
                 onclick="hideSpecificFilters()">
             <label class="form-check-label" for="radio2">{{ __('text.series') }}</label>
         </div>
-        <div id="imdbrange">
+        <div id="imdbrange" style="display:none">
             <p id="imdblabeltxt" style="display:none">{{ __('text.imdbrange') }}</p>
             <label id="imdblabel" for="imdb"></label>
             <input id="imdb" type="range" min="0" max="10" name="imdb" onchange="imdbChange()" disabled>
@@ -44,7 +44,7 @@
             <label id="yearlabel" for="year"></label>
             <input id="year" type="range" min="1940" max="2020" name="year" onchange="yearChange()" disabled>
         </div>
-        <select id="genre" name="genre[]" multiple>
+        <select id="genre" name="genre[]" style="display:none" multiple>
             <option name="action" value="action">{{ __('text.action') }}</option>
             <option name="adventure" value="adventure">{{ __('text.action') }}</option>
             <option name="animation" value="animation">{{ __('text.animation') }}</option>
@@ -110,13 +110,8 @@
 <script>
     function showFilters() {
         document.getElementById("filters").style.display = "block";
-
-        document.getElementById("imdb").disabled = false;
         document.getElementById("year").disabled = false;
 
-        let val = document.getElementById("imdb").value;
-        let txt = document.getElementById("imdblabeltxt").textContent;
-        document.getElementById("imdblabel").innerHTML = txt + val + "->10";
         val = document.getElementById("year").value;
         txt = document.getElementById("yearlabeltxt").textContent;
         document.getElementById("yearlabel").innerHTML = txt + val + "->2020";
@@ -135,11 +130,14 @@
     }
 
     function showSpecificFilters() {
-        document.getElementById("genre").style.display = "inline-block";
-        document.getElementById("imdbrange").style.display = "block";
-
+        document.getElementById("imdb").disabled = false;
         document.getElementById("genre").disabled = false;
-        document.getElementById("imdbrange").disabled = false;
+        document.getElementById("imdbrange").style.display = "block";
+        document.getElementById("genre").style.display = "inline-block";
+
+        let val = document.getElementById("imdb").value;
+        let txt = document.getElementById("imdblabeltxt").textContent;
+        document.getElementById("imdblabel").innerHTML = txt + val + "->10";
     }
 
     function hideSpecificFilters() {
