@@ -3,6 +3,7 @@
 const net = require('net');
 const Buffer = require('buffer').Buffer;
 const tracker = require('./tracker');
+const message = require('./message');
 
 
 function download(peer) {
@@ -10,12 +11,10 @@ function download(peer) {
   socket.on('error', console.log);
 
   socket.connect(peer.port, peer.ip, () => {
-
+    socket.write(message.buildHandshake(torrent));
   });
 
-  onWholeMsg(socket, data => {
-
-  });
+  onWholeMsg(socket, msg => msgHandler(msg, socket));
 }
 exports = download;
 
@@ -37,4 +36,8 @@ function onWholeMsg(socket, callback) {
       handshake = false;
     }
   });
+}
+
+function msgHandler(msg, socket) {
+
 }
