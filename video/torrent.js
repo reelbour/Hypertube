@@ -12,6 +12,7 @@ const bencode = require('bencode');
 const tracker = require('./tracker');
 const torrentParser = require('./torrent-parser');
 const download = require('./download').download;
+const Pieces = require('./Pieces');
 
 // die if wrong amout of param
 if (process.argv.length != 3) die("Invalid param amount.");
@@ -36,7 +37,9 @@ const torrent = torrentParser.open(fileName);
 console.log('torrent: ', torrent);
 tracker.getPeers(torrent, peers => {
   const pieces = new Pieces(torrent);
+  var path = torrent.info.name;
+  const file = fs.openSync(path, 'w');
   console.log('list of peers: ', peers);
   console.log('info hash: ', torrentParser.infoHash(torrent));
-  peers.forEach(peer => download(peer, torrent, pieces));
+  peers.forEach(peer => download(peer, torrent, pieces, file));
 });

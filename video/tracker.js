@@ -43,7 +43,7 @@ exports.getPeers = getPeers;
 
 class TrackerEmitter extends EventEmitter {}
 
-function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, timeout=100) {
+function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, timeout=5000) {
   if (rawUrlList.length == 0) {
     trackerEmitter.emit('error', 'No valid tracker');
     return;
