@@ -31,6 +31,7 @@ return [
   'user_profile' => ':user\'s profile',
   'query' => "Search...",
   'searchbtn' => 'Search',
+  'noresult' => 'There are no results for your search.',
   'sortby' => 'Sort by',
   'year' => 'Year',
   'imdb' => 'IMDb note',

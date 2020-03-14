@@ -31,6 +31,7 @@ return [
     'user_profile' => 'Profil de :user',
     'query' => 'Rechercher...',
     'searchbtn' => 'Rechercher',
+    'noresult' => "Il n'y a aucun résultat pour votre recherche.",
     'sortby' => 'Trier par',
     'year' => 'Année',
     'imdb' => 'Note IMDb',
