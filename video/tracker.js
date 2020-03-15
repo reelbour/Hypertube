@@ -44,12 +44,16 @@ exports.getPeers = getPeers;
 class TrackerEmitter extends EventEmitter {}
 
 function onlyUnique(value, index, self) {
-  return self.indexOf(value) === index;
+  const t = self.findIndex((fValue, fIndex, arr) => {
+    return  fValue.ip === value.ip &&
+            fValue.port === value.port;
+  });
+  console.log('onlyUnique: ', t, index, t === index);
+  return t === index;
 }
 
 function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, acc=[], timeout=5000) {
   if (rawUrlList.length == 0) {
-    trackerEmitter.emit('error', 'No valid tracker');
     callback(acc.filter( onlyUnique ));
     return;
   }
@@ -81,7 +85,7 @@ function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, acc=[
       console.log('announceReq...');
       const announceReq = buildAnnounceReq(connResp.connectionId, torrent, socket.address().port);
       console.log('send...');
-      udpSend(socket, announceReq, rawUrl, () => { console.log('sent: '); });
+      udpSend(socket, announceReq, rawUrl, () => { console.log('sent!'); });
     }
     else if (respType(response) === 'announce') {
       console.log('announceResp...');
