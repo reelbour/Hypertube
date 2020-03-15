@@ -43,9 +43,14 @@ exports.getPeers = getPeers;
 
 class TrackerEmitter extends EventEmitter {}
 
-function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, timeout=5000) {
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
+
+function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, acc=[], timeout=5000) {
   if (rawUrlList.length == 0) {
     trackerEmitter.emit('error', 'No valid tracker');
+    callback(acc.filter( onlyUnique ));
     return;
   }
 
@@ -56,7 +61,7 @@ function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, timeo
   var tiot = setTimeout(() => {
     console.log('timeout!');
     socket.close();
-    trackerInteraction(torrent, rawUrlList, trackerEmitter, callback);
+    trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, acc);
   }, timeout);
 
   console.log('connReq...');
@@ -84,7 +89,8 @@ function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, timeo
       console.log('end...');
       clearTimeout(tiot);
       socket.close();
-      callback(announceResp.peers);
+      console.log('got: ', announceResp.peers);
+      trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, acc.concat(announceResp.peers));
     }
   });
 
