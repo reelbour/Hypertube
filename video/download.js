@@ -93,6 +93,8 @@ function bitfieldHandler(socket, pieces, queue, payload) {
 
 function pieceHandler(socket, pieces, queue, torrent, file, pieceResp) {
   console.log(pieceResp);
+  pieces.printPercentDone();
+
   pieces.addReceived(pieceResp);
 
   const offset = pieceResp.index * torrent.info['piece length'] + pieceResp.begin;
