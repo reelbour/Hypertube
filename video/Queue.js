@@ -1,4 +1,4 @@
-'use strict';
+/*jshint esversion: 6 */
 
 const tp = require('./torrent-parser');
 

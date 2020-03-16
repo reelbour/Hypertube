@@ -58,7 +58,20 @@ module.exports.blockLen = (torrent, pieceIndex, blockIndex) => {
 
 module.exports.fileslen = (torrent) => {
   var files = [];
-  torrent.info.files.forEach((val) => {files[][val.path.toString("utf8")] = val.length});
-  // console.log(files);
+  torrent.info.files.forEach((val) => {
+    files.push({name: val.path.toString('utf8'), length: val.length});
+  });
+  return files;
+};
+
+module.exports.files = (torrent, path) => {
+  var files = [];
+  torrent.info.files.forEach((val) => {
+    files.push({
+      name: val.path.toString('utf8'),
+      length: val.length,
+      fs: fs.openSync(path + val.path.toString('utf8'), 'w')
+    });
+  });
   return files;
 };

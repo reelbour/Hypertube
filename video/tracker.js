@@ -52,7 +52,7 @@ function onlyUnique(value, index, self) {
   return t === index;
 }
 
-function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, acc=[], timeout=5000) {
+function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, acc=[], timeout=2000) {
   if (rawUrlList.length == 0) {
     callback(acc.filter( onlyUnique ));
     return;
