@@ -46,7 +46,7 @@
         </div>
         <select id="genre" name="genre[]" style="display:none" multiple>
             <option name="action" value="Action">{{ __('text.action') }}</option>
-            <option name="adventure" value="Adventure">{{ __('text.action') }}</option>
+            <option name="adventure" value="Adventure">{{ __('text.adventure') }}</option>
             <option name="animation" value="Animation">{{ __('text.animation') }}</option>
             <option name="biography" value="Biography">{{ __('text.biography') }}</option>
             <option name="comedy" value="Comedy">{{ __('text.comedy') }}</option>
@@ -62,9 +62,9 @@
             <option name="musical" value="Musical">{{ __('text.musical') }}</option>
             <option name="mistery" value="Mistery">{{ __('text.mistery') }}</option>
             <option name="news" value="News">{{ __('text.news') }}</option>
-            <option name="reality-tv" value="Reality-tv">{{ __('text.reality-tv') }}</option>
+            <option name="reality-tv" value="Reality-TV">{{ __('text.reality-tv') }}</option>
             <option name="romance" value="Romance">{{ __('text.romance') }}</option>
-            <option name="sci-fi" value="Sci-fi">{{ __('text.sci-fi') }}</option>
+            <option name="sci-fi" value="Sci-Fi">{{ __('text.sci-fi') }}</option>
             <option name="sport" value="Sport">{{ __('text.sport') }}</option>
             <option name="superhero" value="Superhero">{{ __('text.superhero') }}</option>
             <option name="talkshow" value="Talkshow">{{ __('text.talkshow') }}</option>
