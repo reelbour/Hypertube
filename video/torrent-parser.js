@@ -55,3 +55,10 @@ module.exports.blockLen = (torrent, pieceIndex, blockIndex) => {
 
   return blockIndex === lastPieceIndex ? lastPieceLength : this.BLOCK_LEN;
 };
+
+module.exports.fileslen = (torrent) => {
+  var files = [];
+  torrent.info.files.forEach((val) => {files[][val.path.toString("utf8")] = val.length});
+  // console.log(files);
+  return files;
+};
