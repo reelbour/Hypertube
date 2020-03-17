@@ -85,12 +85,22 @@
                     @foreach ($movies as $movie)
                         <div class="col-md-4">
                             <div class="card mb-4 shadow-sm">
-                            <a href="localhost:8888/public/movie/{{$movie->title}}">
-                            <img src="{{$movie->medium_cover_image}}" alt="Movie cover" width="100%">
-                            </a>
+                            @if ($movie->rating !== '')
+                                <a href="{{ url('/video/') . '?type=m&id=' . $movie->id . '&imdb=' . $movie->imdb }}">
+                            @else
+                                <a href="{{ url('/video/') . '?type=s&id=' . $movie->imdb . '&ses=' . $movie->ses . '&ep=' . $movie->ep }}">
+                            @endif
+                                    <img src="{{$movie->cover}}" alt="Movie cover" width="100%">
+                                </a>
                                 <div class="card-body">
                                     <p class="card-text">
-                                    <a href="localhost:8888/public/movie/{{$movie->title}}">{{$movie->title}}</a>
+                                    @if ($movie->rating !== '')
+                                        <a href="{{ url('/video/') . '?type=m&id=' . $movie->id . '&imdb=' . $movie->imdb }}">
+                                    @else
+                                        <a href="{{ url('/video/') . '?type=s&id=' . $movie->imdb . '&ses=' . $movie->ses . '&ep=' . $movie->ep }}">
+                                    @endif
+                                            {{$movie->title}}
+                                        </a>
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small class="text-muted">{{$movie->year}}</small>

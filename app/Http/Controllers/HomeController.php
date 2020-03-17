@@ -36,11 +36,15 @@ class HomeController extends Controller
             foreach($data->data->movies as $res) {
                 array_push($movies, (object)[
                     'title' => $res->title,
+                    'id' => $res->id,
                     'year' => $res->year,
+                    'genres' => $res->genres,
                     'rating' => $res->rating,
-                    'medium_cover_image' => $res->medium_cover_image,
+                    'imdb' => $res->imdb_code,
                     'torrents' => $res->torrents,
-                    'genres' => $res->genres
+                    'cover' => $res->medium_cover_image,
+                    'ses' => '',
+                    'ep' => ''
                 ]);
             }
         }
@@ -77,11 +81,15 @@ class HomeController extends Controller
                 foreach($data->data->movies as $res) {
                     array_push($movies, (object)[
                         'title' => $res->title,
+                        'id' => $res->id,
                         'year' => $res->year,
+                        'genres' => $res->genres,
                         'rating' => $res->rating,
-                        'medium_cover_image' => $res->medium_cover_image,
+                        'imdb' => $res->imdb_code,
                         'torrents' => $res->torrents,
-                        'genres' => $res->genres
+                        'cover' => $res->medium_cover_image,
+                        'ses' => '',
+                        'ep' => ''
                     ]);
                 }
             }
@@ -94,8 +102,8 @@ class HomeController extends Controller
             $data = json_decode($data);
             if (isset($data->Search)) {
                 $eps = [];
-                foreach ($data->Search as $res) {
-                    $api = "https://eztv.io/api/get-torrents?imdb_id=" . substr($res->imdbID, 2);
+                foreach ($data->Search as $result) {
+                    $api = "https://eztv.io/api/get-torrents?imdb_id=" . substr($result->imdbID, 2);
                     $res = $client->request('GET', $api);
                     $data = $res->getBody();
                     $data = json_decode($data);
@@ -106,9 +114,13 @@ class HomeController extends Controller
                             array_push($eps, substr($res->title, 0, 5) . $res->season . $res->episode);
                             array_push($movies, (object)[
                                 'title' => $res->title,
-                                'year' => date('Y', $res->date_released_unix),
-                                'medium_cover_image' => $res->small_screenshot,
+                                'id' => $res->id,
+                                'ses' => $res->season,
+                                'ep' => $res->episode,
                                 'torrents' => [$res->torrent_url],
+                                'year' => date('Y', $res->date_released_unix),
+                                'cover' => $result->Poster,
+                                'imdb' => $result->imdbID,
                                 'rating' => '',
                                 'genres' => []
                             ]);
