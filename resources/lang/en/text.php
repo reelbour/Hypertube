@@ -32,6 +32,7 @@ return [
   'query' => "Search...",
   'searchbtn' => 'Search',
   'noresult' => 'There are no results for your search.',
+  'nosupport' => 'Your browser does not support the video tag.',
   'sortby' => 'Sort by',
   'year' => 'Year',
   'imdb' => 'IMDb note',

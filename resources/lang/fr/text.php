@@ -32,6 +32,7 @@ return [
     'query' => 'Rechercher...',
     'searchbtn' => 'Rechercher',
     'noresult' => "Il n'y a aucun résultat pour votre recherche.",
+    'nosupport' => 'Votre navigateur ne supporte pas les vidéos.',
     'sortby' => 'Trier par',
     'year' => 'Année',
     'imdb' => 'Note IMDb',
