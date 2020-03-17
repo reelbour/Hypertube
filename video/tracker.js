@@ -10,7 +10,6 @@ const Buffer = require('buffer').Buffer;
 const urlParse = require('url').parse;
 const crypto = require('crypto');
 const torrentParser = require('./torrent-parser');
-const EventEmitter = require('events');
 const staticVal = require('./staticVal');
 
 
@@ -30,18 +29,12 @@ function getPeers(torrent, callback) {
   //console.log('torrent: ', torrent);
   console.log('rawUrlList: ', rawUrlList);
 
-  const trackerEmitter = new TrackerEmitter();
-  trackerInteraction(torrent, rawUrlList, trackerEmitter, callback);
-  trackerEmitter.on('error', err => {
-    console.log('error: ', err);
-  });
+  trackerInteraction(torrent, rawUrlList, callback);
 }
 exports.getPeers = getPeers;
 
 
 // private functions
-
-class TrackerEmitter extends EventEmitter {}
 
 function onlyUnique(value, index, self) {
   const t = self.findIndex((fValue, fIndex, arr) => {
@@ -52,7 +45,7 @@ function onlyUnique(value, index, self) {
   return t === index;
 }
 
-function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, acc=[], timeout=2000) {
+function trackerInteraction(torrent, rawUrlList, callback, acc=[], timeout=2000) {
   if (rawUrlList.length == 0) {
     callback(acc.filter( onlyUnique ));
     return;
@@ -65,7 +58,7 @@ function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, acc=[
   var tiot = setTimeout(() => {
     console.log('timeout!');
     socket.close();
-    trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, acc);
+    trackerInteraction(torrent, rawUrlList, callback, acc);
   }, timeout);
 
   console.log('connReq...');
@@ -94,7 +87,7 @@ function trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, acc=[
       clearTimeout(tiot);
       socket.close();
       console.log('got: ', announceResp.peers);
-      trackerInteraction(torrent, rawUrlList, trackerEmitter, callback, acc.concat(announceResp.peers));
+      trackerInteraction(torrent, rawUrlList, callback, acc.concat(announceResp.peers));
     }
   });
 

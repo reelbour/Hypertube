@@ -34,14 +34,18 @@ var fileName = `${process.argv[2]}.torrent`;
 // parse torrent
 const torrent = torrentParser.open(fileName);
 
-console.log();
+//console.log();
 // console.log('torrent: ', torrent);
 tracker.getPeers(torrent, peers => {
   const pieces = new Pieces(torrent);
   var path = '../data/';
+  var peersobj = {p:peers};
   const files = torrentParser.files(torrent, path);
   console.log('list of files: ', files);
   console.log('list of peers: ', peers);
   console.log('info hash: ', torrentParser.infoHash(torrent));
-  peers.forEach(peer => download(peer, torrent, pieces, files));
+  //peers.forEach(peer => download(peer, torrent, pieces, files));
+  for (var i = 0; i < 30 && peers.length > 0; i++) {
+    download(peersobj, torrent, pieces, files);
+  }
 });
