@@ -116,7 +116,7 @@ function pieceHandler(socket, pieces, queue, torrent, files, pieceResp, interval
     var writeLength;
     var offset;
     if (start >= countoffset && start < countoffset + file.length &&
-        end >= countoffset && end < countoffset + file.length) {
+        end > countoffset && end <= countoffset + file.length) {
       writeLength = pieceResp.block.length;
       fs.write(file.fs, pieceResp.block, 0, writeLength, start - countoffset, () => {});
     }
@@ -124,7 +124,7 @@ function pieceHandler(socket, pieces, queue, torrent, files, pieceResp, interval
       writeLength = countoffset + file.length - start;
       fs.write(file.fs, pieceResp.block, 0, writeLength, start - countoffset, () => {});
     }
-    else if (end >= countoffset && end < countoffset + file.length) {
+    else if (end > countoffset && end <= countoffset + file.length) {
       writeLength = end - countoffset;
       offset = countoffset - start;
       fs.write(file.fs, pieceResp.block, offset, writeLength, start - countoffset, () => {});
