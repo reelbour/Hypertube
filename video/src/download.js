@@ -12,22 +12,25 @@ module.exports = (torrent, path, files) => {
   tracker.getPeers(torrent, peers => {
     const pieces = new Pieces(torrent);
     //const file = fs.openSync(path, 'w');
-    const obj_peers = new Peers(peers);
-    Peers.list_peers = peers;
-    Peers.list_peers.forEach(peer => download(peer, torrent, pieces, files));
-    var interval = setInterval(() => {Peers.list_peers.forEach(peer => download(peer, torrent, pieces, files, interval))}, 60000);
+    console.log("asdasdasdasds");
+    const obj_peers = new Peers(peers, torrent);
+    obj_peers.list_peers = peers;
+    console.log(obj_peers.list_peers);
+    console.log("serieux", obj_peers.fc_new_peers(torrent));
+    obj_peers.list_peers.forEach(peer => download(peer, torrent, pieces, files, interval, obj_peers));
+    var interval = setInterval(() => {if(obj_peers.fc_new_peers(torrent)){obj_peers.list_peers.forEach(peer => download(peer, torrent, pieces, files, interval, obj_peers))}}, 60000);
   });
 };
 
 
-function download(peer, torrent, pieces, files, interval) {
+function download(peer, torrent, pieces, files, interval, obj_peers) {
   const socket = new net.Socket();
   socket.on('error', console.log);
   socket.connect(peer.port, peer.ip, () => {
     socket.write(message.buildHandshake(torrent));
   });
   const queue = new Queue(torrent, peer.ip);
-  onWholeMsg(socket, msg => msgHandler(msg, socket, pieces, queue, torrent, files, interval));
+  onWholeMsg(socket, msg => msgHandler(msg, socket, pieces, queue, torrent, files, interval, obj_peers));
 }
 
 function onWholeMsg(socket, callback) {
@@ -47,7 +50,7 @@ function onWholeMsg(socket, callback) {
   });
 }
 
-function msgHandler(msg, socket, pieces, queue, torrent, files, interval) {
+function msgHandler(msg, socket, pieces, queue, torrent, files, interval, obj_peers) {
   if (isHandshake(msg)) {
     socket.write(message.buildInterested());
   } else {
@@ -58,7 +61,7 @@ function msgHandler(msg, socket, pieces, queue, torrent, files, interval) {
     if (m.id === 1) unchokeHandler(socket, pieces, queue);
     if (m.id === 4) haveHandler(socket, pieces, queue, m.payload);
     if (m.id === 5) bitfieldHandler(socket, pieces, queue, m.payload);
-    if (m.id === 7) pieceHandler(socket, pieces, queue, torrent, files, m.payload, interval);
+    if (m.id === 7) pieceHandler(socket, pieces, queue, torrent, files, m.payload, interval, obj_peers);
   }
 }
 
@@ -96,7 +99,8 @@ function bitfieldHandler(socket, pieces, queue, payload) {
   if (queueEmpty) requestPiece(socket, pieces, queue);
 }
 
-function pieceHandler(socket, pieces, queue, torrent, files, pieceResp, interval) {
+function pieceHandler(socket, pieces, queue, torrent, files, pieceResp, interval, obj_peers) {
+  obj_peers.add_ct_peers(queue.ip);
   console.log("Queue length", queue.length(), "\n");
   console.log("Queue peek", queue.peek(), "\n");
   console.log(pieceResp);

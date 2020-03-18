@@ -27,7 +27,7 @@ function getPeers(torrent, callback) {
   //rawUrlList = [ "udp://tracker.coppersurfer.tk:6969" ];
   //console.log('announce-list: ', torrent['announce-list'].toString('utf8'));
   //console.log('torrent: ', torrent);
-  console.log('rawUrlList: ', rawUrlList);
+  //console.log('rawUrlList: ', rawUrlList);
 
   trackerInteraction(torrent, rawUrlList, callback);
 }
@@ -41,7 +41,7 @@ function onlyUnique(value, index, self) {
     return  fValue.ip === value.ip &&
             fValue.port === value.port;
   });
-  console.log('onlyUnique: ', t, index, t === index);
+  //console.log('onlyUnique: ', t, index, t === index);
   return t === index;
 }
 
@@ -53,10 +53,10 @@ function trackerInteraction(torrent, rawUrlList, callback, acc=[], timeout=2000)
 
   const socket = dgram.createSocket('udp4');
   const rawUrl = rawUrlList.pop();
-  console.log('rawUrlList after pop: ', rawUrlList);
+  //console.log('rawUrlList after pop: ', rawUrlList);
 
   var tiot = setTimeout(() => {
-    console.log('timeout!');
+    //console.log('timeout!');
     socket.close();
     trackerInteraction(torrent, rawUrlList, callback, acc);
   }, timeout);
@@ -86,7 +86,7 @@ function trackerInteraction(torrent, rawUrlList, callback, acc=[], timeout=2000)
       console.log('end...');
       clearTimeout(tiot);
       socket.close();
-      console.log('got: ', announceResp.peers);
+      //console.log('got: ', announceResp.peers);
       trackerInteraction(torrent, rawUrlList, callback, acc.concat(announceResp.peers));
     }
   });
