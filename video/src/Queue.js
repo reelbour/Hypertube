@@ -1,12 +1,13 @@
-/*jshint esversion: 6 */
+'use strict';
 
 const tp = require('./torrent-parser');
 
 module.exports = class {
-  constructor(torrent) {
+  constructor(torrent, ip) {
     this._torrent = torrent;
     this._queue = [];
     this.choked = true;
+    this.ip = ip;
   }
 
   queue(pieceIndex) {

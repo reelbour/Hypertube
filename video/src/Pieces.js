@@ -1,4 +1,4 @@
-/*jshint esversion: 6 */
+'use strict';
 
 const tp = require('./torrent-parser');
 
@@ -37,16 +37,16 @@ module.exports = class {
   }
 
   printPercentDone() {
-      const downloaded = this._received.reduce((totalBlocks, blocks) => {
-        return blocks.filter(i => i).length + totalBlocks;
-      }, 0);
+    const downloaded = this._received.reduce((totalBlocks, blocks) => {
+      return blocks.filter(i => i).length + totalBlocks;
+    }, 0);
 
-      const total = this._received.reduce((totalBlocks, blocks) => {
-        return blocks.length + totalBlocks;
-      }, 0);
+    const total = this._received.reduce((totalBlocks, blocks) => {
+      return blocks.length + totalBlocks;
+    }, 0);
 
-      const percent = Math.floor(downloaded / total * 100);
+    const percent = Math.floor(downloaded / total * 100);
 
-      console.log('progress: ' + percent + '%\r');
-    }
+    console.log('progress: ' + percent + '%\r');
+  }
 };

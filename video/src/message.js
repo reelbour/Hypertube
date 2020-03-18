@@ -1,10 +1,10 @@
-/*jshint esversion: 6 */
+'use strict';
 
 const Buffer = require('buffer').Buffer;
 const torrentParser = require('./torrent-parser');
-const staticVal = require('./staticVal');
+const util = require('./util');
 
-function buildHandshake(torrent) {
+module.exports.buildHandshake = torrent => {
   const buf = Buffer.alloc(68);
   // pstrlen
   buf.writeUInt8(19, 0);
@@ -16,55 +16,49 @@ function buildHandshake(torrent) {
   // info hash
   torrentParser.infoHash(torrent).copy(buf, 28);
   // peer id
-  staticVal.genId().copy(buf, 48);
+  util.genId().copy(buf, 48);
   return buf;
-}
-module.exports.buildHandshake = buildHandshake;
+};
 
-const buildKeepAlive = () => { Buffer.alloc(4); };
-module.exports.buildKeepAlive = buildKeepAlive;
+module.exports.buildKeepAlive = () => Buffer.alloc(4);
 
-function buildChoke() {
+module.exports.buildChoke = () => {
   const buf = Buffer.alloc(5);
   // length
   buf.writeUInt32BE(1, 0);
   // id
   buf.writeUInt8(0, 4);
   return buf;
-}
-module.exports.buildChoke = buildChoke;
+};
 
-function buildUnchoke() {
+module.exports.buildUnchoke = () => {
   const buf = Buffer.alloc(5);
   // length
   buf.writeUInt32BE(1, 0);
   // id
   buf.writeUInt8(1, 4);
   return buf;
-}
-module.exports.buildUnchoke = buildUnchoke;
+};
 
-function buildInterested() {
+module.exports.buildInterested = () => {
   const buf = Buffer.alloc(5);
   // length
   buf.writeUInt32BE(1, 0);
   // id
   buf.writeUInt8(2, 4);
   return buf;
-}
-module.exports.buildInterested = buildInterested;
+};
 
-function buildUninterested() {
+module.exports.buildUninterested = () => {
   const buf = Buffer.alloc(5);
   // length
   buf.writeUInt32BE(1, 0);
   // id
   buf.writeUInt8(3, 4);
   return buf;
-}
-module.exports.buildUninterested = buildUninterested;
+};
 
-function buildHave(payload) {
+module.exports.buildHave = payload => {
   const buf = Buffer.alloc(9);
   // length
   buf.writeUInt32BE(5, 0);
@@ -73,10 +67,9 @@ function buildHave(payload) {
   // piece index
   buf.writeUInt32BE(payload, 5);
   return buf;
-}
-module.exports.buildHave = buildHave;
+};
 
-function buildBitfield(bitfield) {
+module.exports.buildBitfield = bitfield => {
   const buf = Buffer.alloc(14);
   // length
   buf.writeUInt32BE(payload.length + 1, 0);
@@ -85,10 +78,9 @@ function buildBitfield(bitfield) {
   // bitfield
   bitfield.copy(buf, 5);
   return buf;
-}
-module.exports.buildBitfield = buildBitfield;
+};
 
-function buildRequest(payload) {
+module.exports.buildRequest = payload => {
   const buf = Buffer.alloc(17);
   // length
   buf.writeUInt32BE(13, 0);
@@ -101,10 +93,9 @@ function buildRequest(payload) {
   // length
   buf.writeUInt32BE(payload.length, 13);
   return buf;
-}
-module.exports.buildRequest = buildRequest;
+};
 
-function buildPiece(payload) {
+module.exports.buildPiece = payload => {
   const buf = Buffer.alloc(payload.block.length + 13);
   // length
   buf.writeUInt32BE(payload.block.length + 9, 0);
@@ -117,10 +108,9 @@ function buildPiece(payload) {
   // block
   payload.block.copy(buf, 13);
   return buf;
-}
-module.exports.buildPiece = buildPiece;
+};
 
-function buildCancel(payload) {
+module.exports.buildCancel = payload => {
   const buf = Buffer.alloc(17);
   // length
   buf.writeUInt32BE(13, 0);
@@ -133,10 +123,9 @@ function buildCancel(payload) {
   // length
   buf.writeUInt32BE(payload.length, 13);
   return buf;
-}
-module.exports.buildCancel = buildCancel;
+};
 
-function buildPort(payload) {
+module.exports.buildPort = payload => {
   const buf = Buffer.alloc(7);
   // length
   buf.writeUInt32BE(3, 0);
@@ -145,13 +134,11 @@ function buildPort(payload) {
   // listen-port
   buf.writeUInt16BE(payload, 5);
   return buf;
-}
-module.exports.buildPort = buildPort;
+};
 
-function parse(msg) {
-  const id = msg.length > 4 ? msg.readInt8(4) : -1;
-  let payload = msg.length > 5 ? msg.slice(5) : -2;
-
+module.exports.parse = msg => {
+  const id = msg.length > 4 ? msg.readInt8(4) : null;
+  let payload = msg.length > 5 ? msg.slice(5) : null;
   if (id === 6 || id === 7 || id === 8) {
     const rest = payload.slice(8);
     payload = {
@@ -165,6 +152,5 @@ function parse(msg) {
     size : msg.readInt32BE(0),
     id : id,
     payload : payload
-  };
-}
-module.exports.parse = parse;
+  }
+};

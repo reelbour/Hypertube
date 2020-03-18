@@ -1,36 +1,28 @@
-/*jshint esversion: 6 */
+'use strict';
 
 const fs = require('fs');
 const bencode = require('bencode');
 const crypto = require('crypto');
 const bignum = require('bignum');
 
-function open(filePath) {
-  const fileContent = fs.readFileSync(filePath);
-  const torrent = bencode.decode(fileContent);
+module.exports.BLOCK_LEN = Math.pow(2, 14);
 
-  return torrent;
-}
-exports.open = open;
+module.exports.open = (filepath) => {
+  return bencode.decode(fs.readFileSync(filepath));
+};
 
-function size(torrent) {
-  if (torrent.info.hasOwnProperty('files')) {
-    const size = torrent.info.files.map(file => file.length).reduce((a, b) => a + b);
-  } else {
-    const size = torrent.info.length;
-  }
-
-  return bignum.toBuffer(size, {size: 8});
-}
-exports.size = size;
-
-function infoHash(torrent) {
+module.exports.infoHash = torrent => {
   const info = bencode.encode(torrent.info);
   return crypto.createHash('sha1').update(info).digest();
-}
-exports.infoHash = infoHash;
+};
 
-module.exports.BLOCK_LEN = Math.pow(2, 14);
+module.exports.size = torrent => {
+  const size = torrent.info.files ?
+    torrent.info.files.map(file => file.length).reduce((a, b) => a + b) :
+    torrent.info.length;
+
+  return bignum.toBuffer(size, {size: 8});
+};
 
 module.exports.pieceLen = (torrent, pieceIndex) => {
   const totalLength = bignum.fromBuffer(this.size(torrent)).toNumber();
@@ -54,14 +46,6 @@ module.exports.blockLen = (torrent, pieceIndex, blockIndex) => {
   const lastPieceIndex = Math.floor(pieceLength / this.BLOCK_LEN);
 
   return blockIndex === lastPieceIndex ? lastPieceLength : this.BLOCK_LEN;
-};
-
-module.exports.fileslen = (torrent) => {
-  var files = [];
-  torrent.info.files.forEach((val) => {
-    files.push({name: val.path.toString('utf8'), length: val.length});
-  });
-  return files;
 };
 
 module.exports.files = (torrent, path) => {
