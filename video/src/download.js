@@ -6,7 +6,6 @@ const tracker = require('./tracker');
 const message = require('./message');
 const Pieces = require('./Pieces');
 const Queue = require('./Queue');
-<<<<<<< HEAD:video/src/download.js
 const Peers = require('./Peers');
 
 module.exports = (torrent, path, files) => {
@@ -24,40 +23,12 @@ module.exports = (torrent, path, files) => {
 function download(peer, torrent, pieces, files, interval) {
   const socket = new net.Socket();
   socket.on('error', console.log);
-=======
-const EventEmitter = require('events');
-
-
-function download(peers, torrent, pieces, files) {
-  if (peers.p.length <= 0) { return; }
-  var peer = peers.p.pop();
-  console.log('start download with peer: ', peer);
-
-  function keepGoing() {download(peers, torrent, pieces, files);}
-
-  const socket = new net.Socket();
-  socket.on('error', err => {
-    console.log(err);
-    keepGoing();
-  });
-
->>>>>>> 00300aec78c74582b8640486bff44ccb0bfa7f8e:video/download.js
   socket.connect(peer.port, peer.ip, () => {
     socket.write(message.buildHandshake(torrent));
   });
-<<<<<<< HEAD:video/src/download.js
   const queue = new Queue(torrent, peer.ip);
   onWholeMsg(socket, msg => msgHandler(msg, socket, pieces, queue, torrent, files, interval));
 }
-=======
-  const queue = new Queue(torrent);
-  onWholeMsg(socket, msg => msgHandler(msg, socket, pieces, queue, torrent, files, keepGoing));
-}
-exports.download = download;
-
-
-// private functions
->>>>>>> 00300aec78c74582b8640486bff44ccb0bfa7f8e:video/download.js
 
 function onWholeMsg(socket, callback) {
   let savedBuf = Buffer.alloc(0);
@@ -76,32 +47,18 @@ function onWholeMsg(socket, callback) {
   });
 }
 
-<<<<<<< HEAD:video/src/download.js
 function msgHandler(msg, socket, pieces, queue, torrent, files, interval) {
-=======
-function msgHandler(msg, socket, pieces, queue, torrent, files, keepGoing) {
->>>>>>> 00300aec78c74582b8640486bff44ccb0bfa7f8e:video/download.js
   if (isHandshake(msg)) {
     socket.write(message.buildInterested());
   } else {
     const m = message.parse(msg);
     console.log('msgHandler!', m.id, "ip:", queue.ip, "\n");
 
-<<<<<<< HEAD:video/src/download.js
     if (m.id === 0) chokeHandler(socket);
     if (m.id === 1) unchokeHandler(socket, pieces, queue);
     if (m.id === 4) haveHandler(socket, pieces, queue, m.payload);
     if (m.id === 5) bitfieldHandler(socket, pieces, queue, m.payload);
     if (m.id === 7) pieceHandler(socket, pieces, queue, torrent, files, m.payload, interval);
-=======
-    if (m.id === 0 || m.id === 84) chokeHandler(socket, keepGoing);
-    // if (m.id === null) chokeHandler(socket);
-    if (m.id === 1) unchokeHandler(socket, pieces, queue);
-    if (m.id === 4) haveHandler(socket, pieces, queue, m.payload);
-    if (m.id === 5) bitfieldHandler(socket, pieces, queue, m.payload);
-    if (m.id === 7) pieceHandler(socket, pieces, queue, torrent, files, m.payload);
-
->>>>>>> 00300aec78c74582b8640486bff44ccb0bfa7f8e:video/download.js
   }
 }
 
@@ -110,15 +67,8 @@ function isHandshake(msg) {
          msg.toString('utf8', 1, 20) === 'BitTorrent protocol';
 }
 
-<<<<<<< HEAD:video/src/download.js
 function chokeHandler(socket) {
   //socket.end();
-=======
-function chokeHandler(socket, keepGoing) {
-  console.log('chokeHandler!');
-  socket.end();
-  keepGoing();
->>>>>>> 00300aec78c74582b8640486bff44ccb0bfa7f8e:video/download.js
 }
 
 function unchokeHandler(socket, pieces, queue) {
