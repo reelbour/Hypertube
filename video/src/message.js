@@ -134,7 +134,16 @@ module.exports.buildPort = payload => {
   // listen-port
   buf.writeUInt16BE(payload, 5);
   return buf;
+<<<<<<< HEAD:video/src/message.js
 };
+=======
+}
+module.exports.buildPort = buildPort;
+
+function parse(msg) {
+  const id = msg.length > 4 ? msg.readInt8(4) : -1;
+  let payload = msg.length > 5 ? msg.slice(5) : null;
+>>>>>>> 00300aec78c74582b8640486bff44ccb0bfa7f8e:video/message.js
 
 module.exports.parse = msg => {
   const id = msg.length > 4 ? msg.readInt8(4) : null;
