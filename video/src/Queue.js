@@ -3,11 +3,11 @@
 const tp = require('./torrent-parser');
 
 module.exports = class {
-  constructor(torrent, ip) {
+  constructor(torrent, peer) {
     this._torrent = torrent;
     this._queue = [];
     this.choked = true;
-    this.ip = ip;
+    this.peer = peer;
   }
 
   queue(pieceIndex) {

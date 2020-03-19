@@ -18,7 +18,7 @@ module.exports = (torrent, path, files) => {
     console.log(obj_peers.list_peers);
     console.log("serieux", obj_peers.fc_new_peers(torrent));
     obj_peers.list_peers.forEach(peer => download(peer, torrent, pieces, files, interval, obj_peers));
-    var interval = setInterval(() => {if(obj_peers.fc_new_peers(torrent)){obj_peers.list_peers.forEach(peer => download(peer, torrent, pieces, files, interval, obj_peers))}}, 60000);
+    var interval = setInterval(() => {if(obj_peers.fc_new_peers(torrent)){obj_peers.new_peers.forEach(peer => download(peer, torrent, pieces, files, interval, obj_peers))}}, obj_peers.time);
   });
 };
 
@@ -29,7 +29,7 @@ function download(peer, torrent, pieces, files, interval, obj_peers) {
   socket.connect(peer.port, peer.ip, () => {
     socket.write(message.buildHandshake(torrent));
   });
-  const queue = new Queue(torrent, peer.ip);
+  const queue = new Queue(torrent, peer);
   onWholeMsg(socket, msg => msgHandler(msg, socket, pieces, queue, torrent, files, interval, obj_peers));
 }
 
@@ -55,10 +55,16 @@ function msgHandler(msg, socket, pieces, queue, torrent, files, interval, obj_pe
     socket.write(message.buildInterested());
   } else {
     const m = message.parse(msg);
-    console.log('msgHandler!', m.id, "ip:", queue.ip, "\n");
+    console.log('msgHandler!', m.id, "peer:", queue.peer, "\n");
 
-    if (m.id === 0) chokeHandler(socket);
-    if (m.id === 1) unchokeHandler(socket, pieces, queue);
+    if (m.id === 0){
+      obj_peers.add_ck_peers(queue.peer);
+      chokeHandler(socket);
+    }
+    if (m.id === 1) {
+      obj_peers.add_unck_peers(queue.peer);
+      unchokeHandler(socket, pieces, queue);
+    }
     if (m.id === 4) haveHandler(socket, pieces, queue, m.payload);
     if (m.id === 5) bitfieldHandler(socket, pieces, queue, m.payload);
     if (m.id === 7) pieceHandler(socket, pieces, queue, torrent, files, m.payload, interval, obj_peers);
@@ -100,7 +106,11 @@ function bitfieldHandler(socket, pieces, queue, payload) {
 }
 
 function pieceHandler(socket, pieces, queue, torrent, files, pieceResp, interval, obj_peers) {
-  obj_peers.add_ct_peers(queue.ip);
+  obj_peers.add_ct_peers(queue.peer);
+  console.log("ok : ", obj_peers.ct_peers, "length : ", obj_peers.ct_peers.length, "\n");
+  console.log("New peers : ", obj_peers.new_peers, "length : ", obj_peers.new_peers.length, "\n");
+  console.log("Choke peers : ", obj_peers.ck_peers, "length : ", obj_peers.ck_peers.length, "\n");
+  console.log("Unchoke peers : ", obj_peers.unck_peers, "length : ", obj_peers.unck_peers.length, "\n");
   console.log("Queue length", queue.length(), "\n");
   console.log("Queue peek", queue.peek(), "\n");
   console.log(pieceResp);
