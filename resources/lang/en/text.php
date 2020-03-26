@@ -68,5 +68,6 @@ return [
   'talkshow' => 'Talk Show',
   'thriller' => 'Thriller',
   'war' => 'War',
-  'western' => 'Western'
+  'western' => 'Western',
+  'comment' => 'Your comment ...'
 ];

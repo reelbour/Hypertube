@@ -17,6 +17,7 @@
                             <small class="text-muted">{{ $movie->rating }}/10 IMDb</small>
                         </div>
                         <br />
+
                         <h4 class="card-text">
                             {{ $movie->title }}
                         </h4>
@@ -37,6 +38,14 @@
                     </div>
                 @endif
             </div>
+
+            <form action="index.html" method="post">
+              <div class="row justify-content-center">
+                <textarea name="comment" placeholder="{{ __('text.comment')}}" rows="10" cols="80"></textarea>
+              </div>
+
+              <button class="btn btn-dark" type="button" name="button">{{ __('text.send')}}</button>
+            </form>
         </div>
     </div>
 </div>
