@@ -9,6 +9,12 @@ class CommentsController extends Controller
 
     public function return()
     {
-      return back();
+      // echo 'sosa';
+      print_r($_POST);
+      //return back();
+    }
+    public function add()
+    {
+      print_r($_POST);
     }
 }

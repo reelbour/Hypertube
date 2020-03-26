@@ -46,7 +46,7 @@
                 <textarea name="comment" placeholder="{{ __('text.comment')}}" rows="10" cols="80"></textarea>
               </div>
 
-              <button class="btn btn-dark" type="button" name="button">{{ __('text.send')}}</button>
+              <button class="button is-link" type="button" name="button">{{ __('text.send')}}</button>
             </form>
         </div>
     </div>
