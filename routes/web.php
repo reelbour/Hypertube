@@ -22,7 +22,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/search', 'HomeController@search')->name('home');
 Route::get('/video', 'VideoPageController@index');
-
+Route::get('/comment', 'CommentsController@return')->middleware('auth');
 Route::resource('myprofile', 'MyprofileController')->middleware('auth');
 
 Route::get('socialauth/{provider}', 'Auth\SocialAuthController@redirectToProvider');

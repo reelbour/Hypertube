@@ -39,7 +39,9 @@
                 @endif
             </div>
 
-            <form action="index.html" method="post">
+            <!-- {{ $x = $_GET['imdb']}} -->
+            <form action="{{ url("/comment") }}" method="post">
+              @csrf
               <div class="row justify-content-center">
                 <textarea name="comment" placeholder="{{ __('text.comment')}}" rows="10" cols="80"></textarea>
               </div>
