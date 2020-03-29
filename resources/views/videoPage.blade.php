@@ -18,12 +18,16 @@
                         </div>
                         <br />
 
-                        <h4 class="card-text">
+                        <h4 class="card-text" style="text-align: center">
                             {{ $movie->title }}
                         </h4>
-                        <p class="card-text">
-                            {{ $movie->plot }}
-                        </p>
+
+
+                          <p class="card-text" style="text-align: right">
+                              {{ $movie->plot }}
+                          </p>
+
+
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><span class="font-weight-bold">Main actor(s): </span >
                                 {{ $movie->actors }}
@@ -39,15 +43,33 @@
                 @endif
             </div>
 
-            <!-- {{ $x = $_GET['imdb']}} -->
-            <form action="{{ url("/comment") }}" method="post">
-              @csrf
-              <div class="row justify-content-center">
-                <textarea name="comment" placeholder="{{ __('text.comment')}}" rows="10" cols="80"></textarea>
-              </div>
 
-              <button class="button is-link" type="button" name="button">{{ __('text.send')}}</button>
+
+            <form action="{{ route('comment.store')}}" method="post">
+              @csrf
+              <!-- @method('PUT') -->
+              <input type="hidden" name="imdb" value="{{ $movie->imdb}}">
+              <input type="text" name="content" value="" placeholder="Your comment">
+              <button class="button is-danger" type="submit">Ajouter</button>
             </form>
+
+
+            <!-- ici mettre les commentaires -->
+
+
+                <div class="card-body">
+
+                        @foreach ($comment as $comments)
+                            <div class="card-text">
+
+                              <p>added by <a href="{{url('UserProfile/' . $comments->user_id)}}">{{$comments->user_id}}</a> </p>
+                          <p>Created at :{{$comments->created_at}}</p>
+                          <p>Content:   {{$comments->content}}</p>
+
+                            </div>
+              </div>
+                        @endforeach
+
         </div>
     </div>
 </div>
