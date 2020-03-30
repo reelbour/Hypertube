@@ -1,6 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/js/jquery.jscroll.min.js"></script>
+
+
+<script type="text/javascript">
+    $('ul.pagination').hide();
+    $(function() {
+        $('.infinite-scroll').jscroll({
+            autoTrigger: true,
+            loadingHtml: '<img class="center-block" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAACACAMAAABqWpZZAAAAPFBMVEX////+/v7X19fm5ube3t76+vrv7+/b29v39/fz8/PMzMzp6ens7OyEhISAgICcnJy6urrAwMDGxsZ1dXUgmRR/AAACVklEQVR4nO2ZyZbrIAxEZQYDge7O8P//2hKDTZz3vDWcrruJI3tRFSQZESIAAAAAAAAAAAAAAAAAAAAAAAAAAPBXWQ78LzYqH1q9c34mB73G/KGV0tQFpjHgTXw3EI2fyoBRaqXdAK1KmZkMiHDXr4BrKzG2/t2AZ8WRmgGK7Gcv5qtVnrBnSZFcDDQ7cxjg3zurlKRpK1ATipXLzatFnsHqgk5LLVsVioHAl0li1tzWsR2U/mOCXMkFJZFucgsiSs/7/WYnMMB6Of29GKDAZjjE39fb/T6BAbJaHDjO/xS58Uja+8gJpB5Zfw6NSy5UnxdBehBtXWct8kN9ZFiK3mV1tWy3xmlY/kPXBnW1yhOa3iVKGXQGwvOhLA2vv8tvu7ztosnafzw0IHat2MMUwE2osl6t8QyrNg767eu78PoKV6s8we8G3peA1tdXI16t8oxkKvGYQo+fyvNqjWf09XkwMAebWq/1uwGtPU0w0bSK5Wkgj5R7CXAgWprCABeCvIhV6Aa0bEC51J4YlvzSLfvRQD40A8G36ODjAJVZUjZClqyTaVLQynH2pHwjjr4CLJv30rLtkTlSXgyeynTJEbk3/DyQykBW58g8UqZcEayb8yiNnUOS8GUbV+bIOtTn6VKCfHNo/d3JSSh9qByrlC8zvNT2zl8H+XoyV5ZjIgO5F/n9ZE42eXGCF/G+AvUobjvcjfVoa3QHm8TkjO0MLNa4NFMKcdKUXtQM0OInK2LaNnErdYHRDXz+HRbCZwwAAAAAAAAAAAAAAAAAAAAAAAAAAPxVfgFshw5fJ9ayWgAAAABJRU5ErkJggg==" alt="Loading..." />',
+            padding: 0,
+            nextSelector: '.pagination li.active + li a',
+            contentSelector: 'div.infinite-scroll',
+            callback: function() {
+                $('ul.pagination').remove();
+            }
+        });
+    });
+</script>
+
+<div class="infinite-scroll">
+    @foreach($movies as $movie)
+        <h4 class="media-heading">{{ $movie->cover }}
+            <small>{{ $movie->title }}</small>
+        </h4>
+
+        <hr>
+    @endforeach
+    <li >
+               </li>
+</div>
+
 <form class="" action="{{url('home/search')}}" method="get" style="text-align: center;">
     <div class="field">
         <div class="control">

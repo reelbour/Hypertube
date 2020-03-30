@@ -84,6 +84,13 @@
                   WELCOME TO SOSATUBE
                 </div>
 
+                <div class="content">
+                       <div class='f4b1'>
+                        <button  type="button" class="btn btn-success">Get the count of user with an ajax query</button>
+                       </div>
+                       <div class='ajax'>
+                       </div>
+                       </div>
 
             </div>
         </div>
@@ -92,13 +99,6 @@
 </script>
 
 
-<div class="content">
-       <div class='f4b1'>
-        <button  type="button" class="btn btn-success">Call Ajax</button>
-       </div>
-       <div class='ajax'>
-       </div>
-       </div>
 
 
        <script>

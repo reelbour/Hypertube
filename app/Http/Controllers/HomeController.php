@@ -59,7 +59,9 @@ class HomeController extends Controller
             if (isset($_GET['type']) && $_GET['type'] === 'series')
                 $movies = [];
         }
-        return view('home', compact('movies'));
+          $x = compact('movies');
+          // here
+        return view('home', $x);
     }
 
     public function search(Request $string)
@@ -138,6 +140,10 @@ class HomeController extends Controller
             $movies = $this->filter($movies);
         if (isset($_GET['sort']))
             $movies = $this->dispatch_sort($_GET['sort'], $movies, $movies);
+
+
+            //here
+            //dd($movies);
         return view('home', compact('movies', 'query'));
     }
 
