@@ -7,7 +7,7 @@
             <div class="row">
                 @if (isset($movie))
                     <video width="100%" height="350px" controls>
-                        <source src="" type="video/mp4">
+                        <source src="/video/test.mp4" type="video/mp4">
                         {{ __(('text.nosupport')) }}
                     </video>
                     <div class="card-body">
