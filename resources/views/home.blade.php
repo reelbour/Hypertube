@@ -1,26 +1,31 @@
 @extends('layouts.app')
+<style media="screen">
 
+.photo-item {
+margin: 40px 0;
+padding-top: 20px;
+border-top: 1px solid #DDD;
+}
+
+.photo-item__image {
+display: block;
+max-width: 100%;
+}
+
+.page-load-status {
+display: none; /* hidden by default */
+padding-top: 20px;
+border-top: 1px solid #DDD;
+text-align: center;
+color: #777;
+}
+</style>
 @section('content')
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="/js/jquery.jscroll.min.js"></script>
-
-
-<div id="app">
-            <example-component>@foreach($movies as $movie)
-                <h4 class="media-heading">{{ $movie->cover }}
-                    <small>{{ $movie->title }}</small>
-                </h4>
-
-                <hr>
-            @endforeach</example-component>
-        </div>
-        <script src="/ressources/assets/js/app.js" ></script>
+<script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"></script>
 
 
 
-
-<!--
 <form class="" action="{{url('home/search')}}" method="get" style="text-align: center;">
     <div class="field">
         <div class="control">
@@ -100,10 +105,10 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="row">
+            <div class="row infin">
                 @if (isset($movies[0]))
                     @foreach ($movies as $movie)
-                        <div class="col-md-4">
+                        <div class="col-md-4 post">
                             <div class="card mb-4 shadow-sm">
                             @if ($movie->rating !== '')
                                 <a href="{{ url('/video/') . '?type=m&id=' . $movie->id . '&imdb=' . $movie->imdb }}">
@@ -177,5 +182,26 @@
         document.getElementById("genre").disabled = true;
         document.getElementById("imdbrange").disabled = true;
     }
-</script> -->
+</script>
+
+<script type="text/javascript">
+
+var elem = document.querySelector('.container');
+var infScroll = new InfiniteScroll( elem, {
+  // options
+  path: '.pagination__next',
+  append: '.post',
+  history: false,
+});
+
+// element argument can be a selector string
+//   for an individual element
+var infScroll = new InfiniteScroll( '.infin', {
+  // options
+  scrollThreshold: 100,
+  elementScroll: true,
+
+});
+
+</script>
 @endsection
