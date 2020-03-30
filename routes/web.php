@@ -23,6 +23,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/search', 'HomeController@search')->name('home');
 Route::get('/video', 'VideoPageController@index');
 
+Route::post('/ajax', 'AjaxController@ajax_call');
+
 
 
 Route::resource('comment', 'CommentController')->middleware('auth');
