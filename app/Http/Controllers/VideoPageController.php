@@ -95,7 +95,7 @@ class VideoPageController extends Controller
                 }
             }
         }
-        $comment = app('App\Http\Controllers\CommentController')->show($movie->imdb);
+        $comment = app('App\Http\Controllers\CommentController')->show($movie->id);
         return view('videoPage', compact('movie', 'comment'));
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use App\Comment;
+use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -36,10 +38,20 @@ class CommentController extends Controller
       // verify that te comment isnt empty and is valid here
       //here return back with info (comm have been added INsuccefuly)
 
+      $validator = Validator::make($request->all(), [
+        'content' => 'required|string|min:1,max:500'
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
 
       $comment = new comment;
       $comment->user_id = auth()->id();
-      $comment->imdb_id = $request->imdb;
+
+      $comment->name = Auth()->user()->name;
+      $comment->content_id = $request->id;
       $comment->content = $request->content;
       $comment->save();
 
@@ -55,9 +67,9 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($imdb)
+    public function show($id)
     {
-        $comment = comment::where('imdb_id' , $imdb)->get();
+        $comment = comment::where('content_id' , $id)->orderBy('created_at', 'desc')->get();
         return $comment;
     }
 
@@ -74,5 +86,5 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
 }

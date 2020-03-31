@@ -41,36 +41,41 @@
                         </ul>
                     </div>
                 @endif
+
+                <ul class="list-unstyled">
+
+
+                  @foreach ($comment as $comments)
+
+                  <li class="media my-4">
+                    <div class="media-body">
+                      <h5 class="mt-0 mb-1"><a href="{{url('UserProfile/' . $comments->user_id)}}">{{$comments->name}}</a></h5>
+                      {{$comments->content}}
+                      <div class="d-flex justify-content-between align-items-center">
+                          <small class="text-muted">{{ $comments->created_at }}</small>
+                        </div>
+                      </div>
+                  </li>
+
+                  @endforeach
+                  <li class="media">
+
+                    <div class="media-body">
+                      <form action="{{ route('comment.store')}}" method="post">
+                        @csrf
+                        <!-- @method('PUT') -->
+                        <input type="hidden" name="id" value="{{ $movie->id}}">
+                        <textarea name="content" cols="40" rows="5" placeholder="{{ __(('text.comment')) }}"></textarea>
+                        <!-- <input type="text" name="content" value="" col=5 row=15 placeholder="Your comment"> -->
+                        <button class="button is-danger" type="submit">{{ __(('text.send')) }}</button>
+                      </form>
+                    </div>
+                  </li>
+                </ul>
+
             </div>
-
-
-
-            <form action="{{ route('comment.store')}}" method="post">
-              @csrf
-              <!-- @method('PUT') -->
-              <input type="hidden" name="imdb" value="{{ $movie->imdb}}">
-              <input type="text" name="content" value="" placeholder="Your comment">
-              <button class="button is-danger" type="submit">Ajouter</button>
-            </form>
-
-
-            <!-- ici mettre les commentaires -->
-
-
-                <div class="card-body">
-
-                        @foreach ($comment as $comments)
-                            <div class="card-text">
-
-                              <p>added by <a href="{{url('UserProfile/' . $comments->user_id)}}">{{$comments->user_id}}</a> </p>
-                          <p>Created at :{{$comments->created_at}}</p>
-                          <p>Content:   {{$comments->content}}</p>
-
-                            </div>
-              </div>
-                        @endforeach
-
         </div>
     </div>
 </div>
+
 @endsection
