@@ -1,32 +1,7 @@
 @extends('layouts.app')
-<style media="screen">
 
-.photo-item {
-margin: 40px 0;
-padding-top: 20px;
-border-top: 1px solid #DDD;
-}
-
-.photo-item__image {
-display: block;
-max-width: 100%;
-}
-
-.page-load-status {
-display: none; /* hidden by default */
-padding-top: 20px;
-border-top: 1px solid #DDD;
-text-align: center;
-color: #777;
-}
-</style>
 @section('content')
-
-<script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"></script>
-
-
-
-<form class="" action="{{url('home/search')}}" method="get" style="text-align: center;">
+<form action="{{url('home/search')}}" method="get" style="text-align: center;">
     <div class="field">
         <div class="control">
             <input type="text" name="query" placeholder="{{ __('text.query') }}"
@@ -105,44 +80,84 @@ color: #777;
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="row infin">
-                @if (isset($movies[0]))
-                    @foreach ($movies as $movie)
-                        <div class="col-md-4 post">
-                            <div class="card mb-4 shadow-sm">
-                            @if ($movie->rating !== '')
-                                <a href="{{ url('/video/') . '?type=m&id=' . $movie->id . '&imdb=' . $movie->imdb }}">
-                            @else
-                                <a href="{{ url('/video/') . '?type=s&id=' . $movie->imdb . '&ses=' . $movie->ses . '&ep=' . $movie->ep }}">
-                            @endif
-                                    <img src="{{$movie->cover}}" alt="Movie cover" width="100%">
-                                </a>
-                                <div class="card-body">
-                                    <p class="card-text">
-                                    @if ($movie->rating !== '')
-                                        <a href="{{ url('/video/') . '?type=m&id=' . $movie->id . '&imdb=' . $movie->imdb }}">
-                                    @else
-                                        <a href="{{ url('/video/') . '?type=s&id=' . $movie->imdb . '&ses=' . $movie->ses . '&ep=' . $movie->ep }}">
-                                    @endif
-                                            {{$movie->title}}
-                                        </a>
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <small class="text-muted">{{$movie->year}}</small>
-                                        <small class="text-muted">{{$movie->rating}}</small>
+            @if (isset($movies[0]))
+                <?php $id = 0 ?>
+                <?php $len = count($movies) ?>
+                @for ($j = 0; $j < $len;)
+                    <?php $id++ ?>
+                    @if ($id == 1)
+                        <div id="{{ $id }}" class="row">
+                    @else
+                        <div id="{{ $id }}" class="row" style="display:none;">
+                    @endif
+                        @for ($i = $j; $i < $j + 9 && $i < $len; $i++)
+                            <div class="col-md-4">
+                                <div class="card mb-4 shadow-sm">
+                                @if ($movies[$i]->rating !== '')
+                                    <a href="{{ url('/video/') . '?type=m&id=' . $movies[$i]->id . '&imdb=' . $movies[$i]->imdb }}">
+                                @else
+                                    <a href="{{ url('/video/') . '?type=s&id=' . $movies[$i]->imdb . '&ses=' . $movies[$i]->ses . '&ep=' . $movies[$i]->ep }}">
+                                @endif
+                                        <img src="{{$movies[$i]->cover}}" alt="Movie cover" width="100%">
+                                    </a>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                        @if ($movies[$i]->rating !== '')
+                                            <a href="{{ url('/video/') . '?type=m&id=' . $movies[$i]->id . '&imdb=' . $movies[$i]->imdb }}">
+                                        @else
+                                            <a href="{{ url('/video/') . '?type=s&id=' . $movies[$i]->imdb . '&ses=' . $movies[$i]->ses . '&ep=' . $movies[$i]->ep }}">
+                                        @endif
+                                                {{$movies[$i]->title}}
+                                            </a>
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">{{$movies[$i]->year}}</small>
+                                            <small class="text-muted">{{$movies[$i]->rating}}</small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endfor
+                        <?php $j = $i ?>
+                    </div>
+                @endfor
+                <div id="divsLen" style="display:none;">{{ $id }}</div>
+                <div id="divToShow" style="display:none;">{{ 2 }}</div>
+                <div class="d-flex justify-content-center">
+                  <button
+                      id="morebtn"
+                      onClick="loadMore()"
+                      class="btn btn-secondary" >More
+                  </button>
+                  <img id="spinner" src="{{ url('/Pictures/spinner.gif') }}" width="50px" style="display:none;" />
+                </div>
                 @else
-                    <p>{{ __('text.noresult') }}</p>
-                @endif
-            </div>
+                <p>{{ __('text.noresult') }}</p>
+            @endif
         </div>
     </div>
 </div>
 <script>
+    function loadMore() {
+        document.getElementById("morebtn").style.display = "none";
+        document.getElementById("spinner").style.display = "block";
+
+        showMore();
+    }
+
+    function showMore() {
+        setTimeout(() => {
+            document.getElementById("spinner").style.display = "none";
+            let len = document.getElementById("divsLen").innerHTML;
+            let divToShow = document.getElementById("divToShow").innerHTML;
+
+            document.getElementById(divToShow).style.display = "flex";
+            document.getElementById("divToShow").innerHTML = ++divToShow;
+            if (divToShow < len)
+                document.getElementById("morebtn").style.display = "block";
+        }, 3000);
+    }
+
     function showFilters() {
         document.getElementById("filters").style.display = "block";
         document.getElementById("year").disabled = false;
@@ -182,26 +197,5 @@ color: #777;
         document.getElementById("genre").disabled = true;
         document.getElementById("imdbrange").disabled = true;
     }
-</script>
-
-<script type="text/javascript">
-
-var elem = document.querySelector('.container');
-var infScroll = new InfiniteScroll( elem, {
-  // options
-  path: '.pagination__next',
-  append: '.post',
-  history: false,
-});
-
-// element argument can be a selector string
-//   for an individual element
-var infScroll = new InfiniteScroll( '.infin', {
-  // options
-  scrollThreshold: 100,
-  elementScroll: true,
-
-});
-
 </script>
 @endsection

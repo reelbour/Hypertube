@@ -28,7 +28,7 @@ class HomeController extends Controller
             'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
         ]);
 
-        $res = $client->request('GET', 'https://yts.mx/api/v2/list_movies.json?sort_by=download_count&limit=15');
+        $res = $client->request('GET', 'https://yts.mx/api/v2/list_movies.json?sort_by=download_count&limit=50');
         $data = $res->getBody();
         $data = json_decode($data);
         $movies = [];
