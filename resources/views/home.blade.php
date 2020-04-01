@@ -153,9 +153,9 @@
 
             document.getElementById(divToShow).style.display = "flex";
             document.getElementById("divToShow").innerHTML = ++divToShow;
-            if (divToShow < len)
+            if (divToShow - 1 < len)
                 document.getElementById("morebtn").style.display = "block";
-        }, 3000);
+        }, 1500);
     }
 
     function showFilters() {
