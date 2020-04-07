@@ -33,7 +33,7 @@ app.get('/stream/:id/:quality', function (req, res) {
     let id = req.params.id;
 
     request('https://tv-v2.api-fetch.website/movie/' + id, function (req, res) {
-        if (res.body) {
+        if (res && res.body) {
             let movieInfo = JSON.parse(res.body);
             if (movieInfo.torrents.en) {
                 currentMovieUrl = movieInfo.torrents.en[quality].url;
