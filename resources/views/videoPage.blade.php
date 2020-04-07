@@ -7,7 +7,8 @@
             <div class="row">
                 @if (isset($movie))
                     <video width="100%" height="350px" controls>
-                        <source src="/video/test.mp4" type="video/mp4">
+                        <source src="http://127.0.0.1:3000/stream/tt7286456/1080" type="video/mp4">
+                        <track src="http://127.0.0.1:3000/subtitles/tt7286456/en" kind="subtitles" srclang="en" label="English">
                         {{ __(('text.nosupport')) }}
                     </video>
                     <div class="card-body">
