@@ -26,30 +26,28 @@ app.get('/', function (req, res) {
 })
 
 
-app.get('/stream/:id/:quality', function (req, res) {
-  console.log('Stream: ', req.params.id, 'quality: ', req.params.quality);
+app.get('/stream/:hash', function (req, res) {
+  console.log('Stream: ', req.params.hash);
     let tmpReq = req;
-    let quality = req.params.quality + 'p';
-    let id = req.params.id;
+    let hash =  req.params.hash
 
-    request('https://tv-v2.api-fetch.website/movie/' + id, function (req, res) {
-        if (res.body) {
-            let movieInfo = JSON.parse(res.body);
-            if (movieInfo.torrents.en) {
-                currentMovieUrl = movieInfo.torrents.en[quality].url;
-                currentIMDB = movieInfo.imdb_id;
-                torrentHash[tmpReq.params.id] = {
-                    'url':movieInfo.torrents.en[quality].url,
-                    'imdb': movieInfo.imdb_id
-                };
-            }
-        }
-    });
+    // request('https://tv-v2.api-fetch.website/movie/' + id, function (req, res) {
+    //     if (res.body) {
+    //         let movieInfo = JSON.parse(res.body);
+    //         if (movieInfo.torrents.en) {
+    //             currentMovieUrl = movieInfo.torrents.en[quality].url;
+    //             currentIMDB = movieInfo.imdb_id;
+    //             torrentHash[tmpReq.params.id] = {
+    //                 'url':movieInfo.torrents.en[quality].url,
+    //                 'imdb': movieInfo.imdb_id
+    //             };
+    //         }
+    //     }
+    // });
     setTimeout(function () {
-        if (torrentHash[id]) {
-            currentMovieUrl = torrentHash[id].url;
-            currentIMDB = torrentHash[id].imdb;
-            stream.magnetUrl(req, res, currentMovieUrl, id, req.params.quality);
+        if (hash) {
+            console.log('Here !');
+            stream.magnetUrl(req, res, hash);
         }
         else {
             res.send("error");

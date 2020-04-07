@@ -3,7 +3,7 @@ const fs = require('fs');
 const pump = require('pump');
 const rimraf = require("rimraf");
 
-function magnetUrl (req, res, torrentLink, id, quality) {
+function magnetUrl (req, res, torrentLink) {
   let opts =
   {
     connections: 100,         // Max amount of peers to be connected to.
@@ -11,7 +11,7 @@ function magnetUrl (req, res, torrentLink, id, quality) {
   	tmp: '/tmp',              // Root folder for the files storage.
                               // Defaults to '/tmp' or temp folder specific to your OS.
                               // Each torrent will be placed into a separate folder under /tmp/torrent-stream/{infoHash}
-  	path: '../public/film/' + id +'_tmp',   // Where to save the files. Overrides `tmp`.
+  	path: '../public/film/' + torrentLink +'_tmp',   // Where to save the files. Overrides `tmp`.
   	verify: true,             // Verify previously stored data before starting
                               // Defaults to true
   	dht: true,                // Whether or not to use DHT to initialize the swarm.
@@ -22,9 +22,11 @@ function magnetUrl (req, res, torrentLink, id, quality) {
                               // Defaults to empty
   }
   let engine = torrentStream(torrentLink, opts);
+  console.log('Here2 !');
   engine.on('ready', () => {
     engine.files.forEach(function (file) {
-        let fullPath = '../public/film/'  + id + "." + quality + ".mp4";
+      console.log('Here3 !');
+        let fullPath = '../public/film/'  + torrentLink + ".mp4";
         fs.exists(fullPath, (exists) => {
           if (exists) {
             let sizeOfDownloaded = fs.statSync(fullPath).size;
@@ -38,7 +40,7 @@ function magnetUrl (req, res, torrentLink, id, quality) {
               //   console.log('File deleted!');
               // });
 
-              const pathToVideo = '../public/film/' + id + "." + quality + ".mp4";
+              const pathToVideo = '../public/film/' + torrentLink + ".mp4";
               let fileSize = file.length;
               const range = req.headers.range;
 
@@ -62,6 +64,7 @@ function magnetUrl (req, res, torrentLink, id, quality) {
 };
 
 function downloadAndStream (req, res, file, fullPath) {
+  console.log('Here !', fullPath);
 
   let videoFormat = file.name.split('.').pop();
   if (videoFormat === 'mp4' || videoFormat === 'mkv' || videoFormat === 'ogg' || videoFormat === 'webm') {
