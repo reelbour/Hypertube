@@ -22,6 +22,20 @@ class VideoPageController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
+    public function get_hash($array)
+    {
+        foreach ($array as $elem) {
+          if ($elem->quality === '1080p')
+            return $elem->hash;
+        }
+
+        foreach ($array as $elem) {
+          if ($elem->quality === '720p')
+            return $elem->hash;
+        }
+    }
+
     public function index()
     {
         $client = new Client([
@@ -55,8 +69,9 @@ class VideoPageController extends Controller
                 'writer' => $omdb->Writer,
                 'actors' => $omdb->Actors,
                 'genre' => $omdb->Genre,
-                'ses' => '',
-                'ep' => ''
+                'hash' => $this->get_hash($movie->torrents),
+                'ses' => '0',
+                'ep' => '0'
             ];
         } else {
             $api = "http://www.omdbapi.com/?apikey=36cc8909&type=series&i=" . $_GET['id'];
@@ -88,6 +103,7 @@ class VideoPageController extends Controller
                             'cover' => $omdb->Poster,
                             'genre' => $omdb->Genre,
                             'imdb' => $omdb->imdbID,
+                            'hash' => substr($res->magnet_url, 20, 40),
                             'plot' => $omdb->Plot,
                         ];
                         break;
