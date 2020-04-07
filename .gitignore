@@ -12,3 +12,4 @@ yarn-error.log
 /Video/test.mp4
 node_real_stream/node_modules
 public/film/*
+public/subtitles/*

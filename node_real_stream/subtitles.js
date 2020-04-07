@@ -10,12 +10,14 @@ const OpenSubtitles = new OS({
     ssl: false
 })
 
-function getSubtitles (res, id, lang) {
+function getSubtitles (res, id, lang, season, episode) {
    console.log("subtitles id: ", id, "lang: ", lang);
    let idlang = convertLang(lang);
    OpenSubtitles.search({
        sublanguageid: idlang,
        imdbid: id,
+       season: season,
+       episode: episode,
    }).then(subtitles => {
        console.log('Subtitles found ! ', subtitles)
        convertSubtitles(res, subtitles, id, lang);

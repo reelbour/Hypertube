@@ -55,11 +55,11 @@ app.get('/stream/:hash', function (req, res) {
     }, 1000);
 });
 
-app.get('/subtitles/:id/:lang', function (req, res){
+app.get('/subtitles/:id/:lang/:season/:episode', function (req, res){
   let tmpReq = req;
   console.log('subtitles id: ',req.params.id, 'lang: ', req.params.lang);
   setTimeout(function() {
-    subtitles.getSubtitles(res, tmpReq.params.id, tmpReq.params.lang);
+    subtitles.getSubtitles(res, tmpReq.params.id, tmpReq.params.lang, tmpReq.params.season, tmpReq.params.episode);
   }, 2000);
 });
 
