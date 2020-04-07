@@ -1,0 +1,25 @@
+{
+  "name": "node_real_stream",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "download-file": "^0.1.5",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "opensubtitles-api": "^5.1.0",
+    "path": "^0.12.7",
+    "pump": "^3.0.0",
+    "request": "^2.88.2",
+    "rimraf": "^3.0.2",
+    "srt-to-vtt": "^1.1.3",
+    "srt2vtt": "^1.3.1",
+    "stream": "0.0.2",
+    "torrent-stream": "^1.2.0"
+  }
+}
