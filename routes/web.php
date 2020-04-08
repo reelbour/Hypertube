@@ -19,14 +19,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home/search', 'HomeController@search')->name('home');
-Route::get('/video', 'VideoPageController@index');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
+Route::get('/home/search', 'HomeController@search')->name('home')->middleware('auth');
+Route::get('/video', 'VideoPageController@index')->middleware('auth');
 
-Route::post('/viewed', 'FilmviewedController@movie_viewed');
+Route::post('/viewed', 'FilmviewedController@movie_viewed')->middleware('auth');
 
 Route::get('/cleanercontroller' , 'CleanerController@index');
-
+//i will delete this route
 
 Route::resource('comment', 'CommentController')->middleware('auth');
 
@@ -39,6 +39,6 @@ Route::get('socialauth/{provider}/callback', 'Auth\SocialAuthController@handlePr
 Route::get('locale', 'LanguageController@getLang')->name('getlang');
 
 // Route qui permet de modifier la langue
-Route::get('locale/{lang}', 'LanguageController@setLang')->name('setlang');
+Route::get('locale/{lang}', 'LanguageController@setLang')->name('setlang')->middleware('auth');
 
 Route::get('/UserProfile/{id}', 'UserProfileController@show_user')->middleware('auth');
