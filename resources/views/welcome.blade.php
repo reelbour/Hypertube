@@ -78,56 +78,6 @@
                     @endauth
                 </div>
             @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                  WELCOME TO SOSATUBE
-                </div>
-
-                <div class="content">
-                       <div class='f4b1'>
-                        <button  type="button" class="btn btn-success">Get the count of user with an ajax query</button>
-                       </div>
-                       <div class='ajax'>
-                       </div>
-                       </div>
-
-            </div>
         </div>
-
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
-</script>
-
-
-
-
-       <script>
-     $(".f4b1").click(function(e){
-        $.ajaxSetup({
-	  headers: {
-	    'X-CSRF-TOKEN': '<?php echo csrf_token(); ?>'
-          }
-        });
-
-        $.ajax({
-	    url: '/public/ajax',
-            type: 'POST',
-            data: {
-
-            },
-
-	    dataType: 'JSON',
-            success: function (data) {
-
-	       $('.ajax').empty();
-	       $('.ajax').append('Count Users =' + data);
-
-            },
-            error: function (e) {
-                console.log(e.responseText);
-            }
-        });
-    });
-</script>
     </body>
 </html>

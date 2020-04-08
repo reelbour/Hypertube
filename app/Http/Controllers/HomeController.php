@@ -1,9 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use App\Filmvieweds;
 
 class HomeController extends Controller
 {
@@ -44,7 +44,8 @@ class HomeController extends Controller
                     'torrents' => $res->torrents,
                     'cover' => $res->medium_cover_image,
                     'ses' => '',
-                    'ep' => ''
+                    'ep' => '',
+                    'movie_viewed' => Filmvieweds::where('user_id', auth()->id())->where('name', $res->title)->get()
                 ]);
             }
         }
@@ -59,8 +60,8 @@ class HomeController extends Controller
             if (isset($_GET['type']) && $_GET['type'] === 'series')
                 $movies = [];
         }
-          $x = compact('movies');
-          // here
+
+        $x = compact('movies');
         return view('home', $x);
     }
 
@@ -91,7 +92,8 @@ class HomeController extends Controller
                         'torrents' => $res->torrents,
                         'cover' => $res->medium_cover_image,
                         'ses' => '',
-                        'ep' => ''
+                        'ep' => '',
+                        'movie_viewed' => Filmviewed::where('user_id', auth()->id())->where('name', $res->title)->get()
                     ]);
                 }
             }
@@ -124,7 +126,8 @@ class HomeController extends Controller
                                 'cover' => $result->Poster,
                                 'imdb' => $result->imdbID,
                                 'rating' => '',
-                                'genres' => []
+                                'genres' => [],
+                                'movie_viewed' => Filmviewed::where('user_id', auth()->id())->where('name', $res->title)->get()
                             ]);
                         }
                     }
@@ -140,10 +143,6 @@ class HomeController extends Controller
             $movies = $this->filter($movies);
         if (isset($_GET['sort']))
             $movies = $this->dispatch_sort($_GET['sort'], $movies, $movies);
-
-
-            //here
-            //dd($movies);
         return view('home', compact('movies', 'query'));
     }
 

@@ -109,6 +109,9 @@
                                         @endif
                                                 {{$movies[$i]->title}}
                                             </a>
+                                        @if (isset($movies[$i]->movie_viewed) && $movies[$i]->movie_viewed != '[]')
+                                          <img src="{{url('/Pictures/saw.jpg')}}" width="25px" height="25px" alt="">
+                                        @endif
                                         </p>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <small class="text-muted">{{$movies[$i]->year}}</small>

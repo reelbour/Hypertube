@@ -41,7 +41,7 @@ class VideoPageController extends Controller
         $client = new Client([
             'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
         ]);
-
+        $id = auth()->id();
         if ($_GET['type'] === 'm') {
             $api = "http://www.omdbapi.com/?apikey=36cc8909&type=movie&i=" . $_GET['imdb'];
             $res = $client->request('GET', $api);
@@ -104,7 +104,7 @@ class VideoPageController extends Controller
                             'genre' => $omdb->Genre,
                             'imdb' => $omdb->imdbID,
                             'hash' => substr($res->magnet_url, 20, 40),
-                            'plot' => $omdb->Plot,
+                            'plot' => $omdb->Plot
                         ];
                         break;
                     }

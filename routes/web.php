@@ -23,7 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/search', 'HomeController@search')->name('home');
 Route::get('/video', 'VideoPageController@index');
 
-Route::post('/ajax', 'AjaxController@ajax_call');
+Route::post('/viewed', 'FilmviewedController@movie_viewed');
 
 
 

@@ -1,18 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="row">
                 @if (isset($movie))
-                    <video width="100%" height="350px" controls controlsList="nodownload">
-
-                        <source src="http://127.0.0.1:3000/stream/{{ $movie->hash }}" type="video/mp4">
-                        <track src="http://127.0.0.1:3000/subtitles/{{ $movie->imdb }}/en/{{ $movie->ses }}/{{ $movie->ep }}" kind="subtitles" srclang="en" label="English">
-                        <track src="http://127.0.0.1:3000/subtitles/{{ $movie->imdb }}/fr/{{ $movie->ses }}/{{ $movie->ep }}" kind="subtitles" srclang="fr" label="French">
+                    <video id='video' width="100%" height="350px" controls controlsList="nodownload" preload="none">
+                        <source src="//127.0.0.1:3000/stream/{{ $movie->hash }}" type="video/mp4" >
+                          <track src="http://127.0.0.1:3000/subtitles/{{ $movie->imdb }}/en/{{ $movie->ses }}/{{ $movie->ep }}" kind="subtitles" srclang="en" label="English">
+                          <track src="http://127.0.0.1:3000/subtitles/{{ $movie->imdb }}/fr/{{ $movie->ses }}/{{ $movie->ep }}" kind="subtitles" srclang="fr" label="French">
                         {{ __(('text.nosupport')) }}
                     </video>
+
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <small class="text-muted">{{ $movie->year }}</small>
@@ -20,17 +21,12 @@
                             <small class="text-muted">{{ $movie->rating }}/10 IMDb</small>
                         </div>
                         <br />
-
                         <h4 class="card-text" style="text-align: center">
                             {{ $movie->title }}
                         </h4>
-
-
                           <p class="card-text">
                               {{ $movie->plot }}
                           </p>
-
-
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><span class="font-weight-bold">Main actor(s): </span >
                                 {{ $movie->actors }}
@@ -80,5 +76,30 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
+<script>
+        $(document).ready(function() {
+          $('#video').on('play', function(e) {
+            $.ajaxSetup({
+           headers: {
+           'X-CSRF-TOKEN': '<?php echo csrf_token(); ?>'
+              }
+            });
+
+            $.ajax({
+           url: '/public/viewed',
+                type: 'POST',
+                data: {
+                  id_movie: {{$movie->id}},
+                  hash: '{{$movie->hash}}',
+                  title: '{{$movie->title}}',
+                  id_user: {{auth()->id()}}
+                },
+
+           dataType: 'JSON'
+         });
+          })
+      })
+</script>
 @endsection
