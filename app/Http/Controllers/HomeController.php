@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use App\Filmvieweds;
+use App\Film;
+use Illuminate\Database\Eloquent\Model;
+
 
 class HomeController extends Controller
 {

@@ -13,11 +13,11 @@ class Film extends Migration
      */
     public function up()
     {
-      Schema::create('Film', function (Blueprint $table) {
+      Schema::create('Films', function (Blueprint $table) {
           $table->bigincrements('id');
           $table->text('name');
           $table->text('hash');
-          $table->dateTime('time_to_live');
+          $table->text('text')->nullable();
           $table->timestamps();
       });
     }
