@@ -25,6 +25,7 @@ Route::get('/video', 'VideoPageController@index');
 
 Route::post('/viewed', 'FilmviewedController@movie_viewed');
 
+Route::get('/cleanercontroller' , 'CleanerController@index');
 
 
 Route::resource('comment', 'CommentController')->middleware('auth');
