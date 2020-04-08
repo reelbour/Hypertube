@@ -29,24 +29,9 @@ app.get('/', function (req, res) {
 app.get('/stream/:hash', function (req, res) {
   console.log('Stream: ', req.params.hash);
     let tmpReq = req;
-    let hash =  req.params.hash
-
-    // request('https://tv-v2.api-fetch.website/movie/' + id, function (req, res) {
-    //     if (res.body) {
-    //         let movieInfo = JSON.parse(res.body);
-    //         if (movieInfo.torrents.en) {
-    //             currentMovieUrl = movieInfo.torrents.en[quality].url;
-    //             currentIMDB = movieInfo.imdb_id;
-    //             torrentHash[tmpReq.params.id] = {
-    //                 'url':movieInfo.torrents.en[quality].url,
-    //                 'imdb': movieInfo.imdb_id
-    //             };
-    //         }
-    //     }
-    // });
+    let hash =  req.params.hash;
     setTimeout(function () {
         if (hash) {
-            console.log('Here !');
             stream.magnetUrl(req, res, hash);
         }
         else {
