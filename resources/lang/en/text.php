@@ -69,5 +69,8 @@ return [
   'thriller' => 'Thriller',
   'war' => 'War',
   'western' => 'Western',
-  'comment' => 'Your comment ...'
+  'comment' => 'Your comment ...',
+  'welcome' => 'Welcome',
+  'home' => 'Home',
+  'enjoy' => 'Enjoy this free and without add streaming site using torrent protocol'
 ];

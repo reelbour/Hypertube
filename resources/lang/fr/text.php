@@ -69,5 +69,8 @@ return [
     'thriller' => 'Thrilleur',
     'war' => 'Guerre',
     'western' => 'Western',
-    'comment' => 'Votre commentaire ...'
+    'comment' => 'Votre commentaire ...',
+    'welcome' => 'Bienvenue',
+    'home' => 'Accueil',
+    'enjoy' => 'Profiter de ce site de streaming gratuit & sans pubs utilisant le protocole torrent'
 ];

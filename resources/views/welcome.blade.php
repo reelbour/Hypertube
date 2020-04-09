@@ -64,20 +64,34 @@
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="flex-center position-ref">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">{{__('text.home')}}</a>
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                            {{ __('text.logout') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
                     @else
                         <a href="{{ route('login') }}">Login</a>
-
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}">Register</a>
                         @endif
                     @endauth
                 </div>
             @endif
+
         </div>
+
+      <p class="title flex-center">{{__('text.welcome')}}</p>
+      <p class="flex-center">{{__('text.enjoy')}}</p>
+      <footer style="width:100%;padding:15px;text-align:center;border-top:1px solid #ccc;">SOSATUBE 2020 || all rigth is free || 19 school from 42 Network</footer>
+
     </body>
+
 </html>

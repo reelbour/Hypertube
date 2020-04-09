@@ -1,38 +1,27 @@
 @extends('layouts.app')
 @section('content')
+<div class="container">
+
+
     <div class="card">
         <header class="card-header">
             <p class="card-header-title">{{ __('text.user_profile', ['user' => $users->name])}} </p>
         </header>
-        <div class="card-content">
-            <div class="content">
-                <table class="table is-hoverable">
-                    <thead>
-                        <tr>
-                        <th>{{ __('text.profilepic')}}</th>
-                            <th>#</th>
-                            <th>{{ __('text.name')}}</th>
-                            <th>{{ __('text.last_name')}}</th>
-                            <th>{{ __('text.account_crea')}}</th>
-                            <th>{{ __('text.account_up')}}</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                            <tr>
-                            <td><img src= "{{ $users->path_picture }}" alt="" width=500px; heigth=500px;></td>
-                                <td>{{ $users->id }}</td>
-                                <td><strong>{{ $users->name }}</strong></td>
-                                <td><strong>{{ $users->last_name }}</strong></td>
-                                <td><strong>{{ $users->created_at }}</strong></td>
-                                <td><strong>{{ $users->updated_at }}</strong></td>
-                            </tr>
+        <div class="row">
 
 
-                    </tbody>
-                </table>
+                    <div class="container">
+                    <div><img src= "{{ $users->path_picture }}" alt="Pic" style="width:200px;heigth:200px;"></div>
+                    <div>
+                        <ul style="list-style-type: none;">
+                            <li><strong>  {{ __('text.name')}} : </strong>{{ $users->name }}</li>
+                            <li><strong>  {{ __('text.last_name')}} : </strong>{{ $users->last_name }}</li>
+                            <li><strong>  {{ __('text.account_crea')}} : </strong>{{ $users->created_at }}</li>
+                            <li><strong>  {{ __('text.account_up')}} : </strong> {{ $users->updated_at }}</li>
+                        </ul>
+                    </div>
+                  </div>
             </div>
         </div>
-    </div>
+        </div>
 @endsection

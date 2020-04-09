@@ -10,15 +10,6 @@ use App\Http\Controllers\Auth;
 
 class CleanerController extends Controller
 {
-    // ce controlleur s occupe de recuperer in db les films telecharger   OK
-    // check si la date du dernier update depasse 30 jours                OK
-
-
-    // si oui suppression                                                 OK
-    // si des fichiers/dossiers tmp existe depuis plus que 3 jours suppression.
-
-    // ce controlleur dois etre appeler au login ou logout
-
   public function index()
   {
       $this->Clean_tmp();
@@ -84,6 +75,8 @@ class CleanerController extends Controller
           }
           closedir($handle);
 
+          if (isset($array))
+          {
           foreach ($array as $key => $value)
           {
             $filename = $_SERVER['DOCUMENT_ROOT'] .  "/public/film/" . $array[$key];
@@ -103,6 +96,7 @@ class CleanerController extends Controller
                   $this->RepEfface($dir);
               }
           }
+        }
         }
     }
 }
