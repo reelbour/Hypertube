@@ -7,8 +7,8 @@
         <div class="col-md-8">
             <div class="row">
                 @if (isset($movie))
-                    <video id='video' width="100%" height="350px" controls controlsList="nodownload" preload="none">
-                        <source src="//127.0.0.1:3000/stream/{{ $movie->hash }}" type="video/mp4" crossOrigin="anonymous">
+                    <video id='video' width="100%" height="350px" controls controlsList="nodownload" preload="none" crossOrigin="anonymous">
+                        <source src="//127.0.0.1:3000/stream/{{ $movie->hash }}" type="video/mp4">
                           <track src="http://127.0.0.1:3000/subtitles/{{ $movie->imdb }}/en/{{ $movie->ses }}/{{ $movie->ep }}" kind="subtitles" srclang="en" label="English">
                           <track src="http://127.0.0.1:3000/subtitles/{{ $movie->imdb }}/fr/{{ $movie->ses }}/{{ $movie->ep }}" kind="subtitles" srclang="fr" label="French">
                         {{ __(('text.nosupport')) }}
