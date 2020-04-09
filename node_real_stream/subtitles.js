@@ -11,33 +11,40 @@ const OpenSubtitles = new OS({
 })
 
 function getSubtitles (res, id, lang, season, episode) {
-   console.log("subtitles id: ", id, "lang: ", lang);
-   let idlang = convertLang(lang);
-   OpenSubtitles.search({
-       sublanguageid: idlang,
-       imdbid: id,
-       season: season,
-       episode: episode,
-   }).then(subtitles => {
-       console.log('Subtitles found ! ', subtitles)
-       convertSubtitles(res, subtitles, id, lang);
-   }).catch((err) => {
-       console.log('Here: ', err);
-   });
+  let dirname = '../public/subtitles/';
+  let filename;
+
+  if (season == '0' && episode == '0')
+    filename = id + '_movie_' + lang + '.srt'
+  else
+    filename = id + '_' + season + '_' + episode + '_' + lang + '.srt'
+
+    fs.exists(dirname + filename, (exists) => {
+      if (exists) {
+        console.log('Got it !!!');
+        fs.createReadStream(dirname + filename)
+          .pipe(srt2vtt())
+          .pipe(res);
+      } else {
+        console.log("subtitles id: ", id, "lang: ", lang);
+        let idlang = convertLang(lang);
+        OpenSubtitles.search({
+            sublanguageid: idlang,
+            imdbid: id,
+            season: season,
+            episode: episode,
+        }).then(subtitles => {
+            console.log('Subtitles found ! ', subtitles)
+            convertSubtitles(res, subtitles, id, lang, dirname, filename);
+        }).catch((err) => {
+            console.log(err);
+        });
+      }
+    });
 };
 
-function convertSubtitles(res, subtitles, id, lang) {
-   console.log('Here !!!');
-  let dirname = '../public/subtitles/';
-  let filename = id + '_' + lang + '.srt';
-  fs.exists(dirname + filename, (exists) => {
-    console.log('Here too !!!');
-    if(exists){
-      console.log(filename);
-      fs.createReadStream(dirname + filename)
-        .pipe(srt2vtt())
-        .pipe(res);
-    } else if (subtitles[lang]) {
+function convertSubtitles(res, subtitles, id, lang, dirname, filename) {
+    if (subtitles[lang]) {
       let url = subtitles[lang].url;
       let options = {
         directory: dirname,
@@ -53,7 +60,6 @@ function convertSubtitles(res, subtitles, id, lang) {
           .pipe(res);
         })
       }
-  });
 };
 
 function convertLang(lang){
