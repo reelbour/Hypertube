@@ -25,8 +25,6 @@ Route::get('/video', 'VideoPageController@index')->middleware('auth');
 
 Route::post('/viewed', 'FilmviewedController@movie_viewed')->middleware('auth');
 
-Route::get('/cleanercontroller' , 'CleanerController@index');
-//i will delete this route
 
 Route::resource('comment', 'CommentController')->middleware('auth');
 

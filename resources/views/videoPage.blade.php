@@ -9,11 +9,17 @@
                 @if (isset($movie))
                     <video id='video' width="100%" height="350px" controls controlsList="nodownload" preload="none" crossOrigin="anonymous">
                         <source src="//127.0.0.1:3000/stream/{{ $movie->hash }}" type="video/mp4">
+                          @if (Auth::user()->language == 'fr')
+                              <track src="http://127.0.0.1:3000/subtitles/{{ $movie->imdb }}/fr/{{ $movie->ses }}/{{ $movie->ep }}" kind="subtitles" srclang="fr" label="French" default>
+                          @else
+                            <track src="http://127.0.0.1:3000/subtitles/{{ $movie->imdb }}/fr/{{ $movie->ses }}/{{ $movie->ep }}" kind="subtitles" srclang="fr" label="French">
+                           @endif
+
                           <track src="http://127.0.0.1:3000/subtitles/{{ $movie->imdb }}/en/{{ $movie->ses }}/{{ $movie->ep }}" kind="subtitles" srclang="en" label="English">
-                          <track src="http://127.0.0.1:3000/subtitles/{{ $movie->imdb }}/fr/{{ $movie->ses }}/{{ $movie->ep }}" kind="subtitles" srclang="fr" label="French">
+
+
                         {{ __(('text.nosupport')) }}
                     </video>
-
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <small class="text-muted">{{ $movie->year }}</small>

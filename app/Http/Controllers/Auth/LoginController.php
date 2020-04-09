@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Socialite;
+use App\Http\Controllers\CleanerController;
+
 
 class LoginController extends Controller
 {
@@ -36,7 +38,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+      app('App\Http\Controllers\CleanerController')->index();
         $this->middleware('guest')->except('logout');
     }
-    
+
 }

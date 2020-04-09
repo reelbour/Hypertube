@@ -9,6 +9,7 @@ use App\User;
 class LanguageController extends Controller
 {
     public function getLang() {
+
         return \App::getLocale();
     }
 
@@ -21,6 +22,7 @@ class LanguageController extends Controller
         $id  = auth()->id();
 
         $users->where('id', $id)->update(["language" => $lang]);
+
 
         return redirect()->back();
     }
