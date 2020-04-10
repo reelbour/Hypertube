@@ -56,6 +56,7 @@ class RegisterController extends Controller
             'last_name' => ['required', 'string', 'min:3,max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'path_picture' => ['required', 'image'],
         ]);
     }
 
@@ -67,12 +68,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'last_name' => $data['last_name'],
-            'path_picture' => '/Public/Pictures/def.jpg',
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+          $upload_dir_name = "/Public/Pictures/";
+          move_uploaded_file($data['path_picture'], $_SERVER['DOCUMENT_ROOT'] . $upload_dir_name . basename($data['path_picture']));
+          $pathx = $upload_dir_name . basename($_FILES['path_picture']['name']);
+        
+            return User::create([
+                'name' => $data['name'],
+                'last_name' => $data['last_name'],
+                'path_picture' => $pathx,
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
     }
 }
