@@ -24,7 +24,7 @@ return [
   'welcome' => 'Welcome ',
   'logout' => 'Log out',
   'txt_pic_up' => "Modification of your profile's picture",
-  'txt_user_up' => "Update ur account",
+  'txt_user_up' => "Update ur account (need old password or new password)",
   'send' => "Send",
   'dashboard' => 'Dashboard',
   'log_txt' => "You are logged in !",

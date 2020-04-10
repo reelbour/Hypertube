@@ -96,7 +96,7 @@ class HomeController extends Controller
                         'cover' => $res->medium_cover_image,
                         'ses' => '',
                         'ep' => '',
-                        'movie_viewed' => Filmviewed::where('user_id', auth()->id())->where('name', $res->title)->get()
+                        'movie_viewed' => Filmvieweds::where('user_id', auth()->id())->where('name', $res->title)->get()
                     ]);
                 }
             }
@@ -130,7 +130,7 @@ class HomeController extends Controller
                                 'imdb' => $result->imdbID,
                                 'rating' => '',
                                 'genres' => [],
-                                'movie_viewed' => Filmviewed::where('user_id', auth()->id())->where('name', $res->title)->get()
+                                'movie_viewed' => Filmvieweds::where('user_id', auth()->id())->where('name', $res->title)->get()
                             ]);
                         }
                     }
