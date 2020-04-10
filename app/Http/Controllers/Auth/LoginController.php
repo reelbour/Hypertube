@@ -38,7 +38,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-      app('App\Http\Controllers\CleanerController')->index();
+        app('App\Http\Controllers\CleanerController')->index();
         $this->middleware('guest')->except('logout');
     }
 

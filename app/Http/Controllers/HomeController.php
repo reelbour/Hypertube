@@ -74,6 +74,9 @@ class HomeController extends Controller
         $query = $_GET['query'];
         if ($query === '')
             return $this->index();
+        if($query != strip_tags($query))
+          return $this->index();
+
         $client = new Client([
             'headers' => ['content-type' => 'application/json', 'Accept' => 'application/json']
         ]);
