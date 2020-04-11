@@ -56,7 +56,7 @@ class RegisterController extends Controller
             'last_name' => ['required', 'string', 'min:3,max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'path_picture' => ['required', 'image'],
+            'path_picture' => ['required', 'file', 'max:500000'],
         ]);
     }
 
@@ -68,10 +68,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-          $upload_dir_name = "/Public/Pictures/";
-          move_uploaded_file($data['path_picture'], $_SERVER['DOCUMENT_ROOT'] . $upload_dir_name . basename($data['path_picture']));
+          $upload_dir_name = "/public/Pictures/";
+        
+          //dd($_FILES);
+        
           $pathx = $upload_dir_name . basename($_FILES['path_picture']['name']);
         
+          move_uploaded_file(basename($_FILES['path_picture']['tmp_name']), $_SERVER['DOCUMENT_ROOT'] . $upload_dir_name . basename($data['path_picture']));
+          
             return User::create([
                 'name' => $data['name'],
                 'last_name' => $data['last_name'],

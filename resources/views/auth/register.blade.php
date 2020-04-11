@@ -78,7 +78,7 @@
                           <div class="form-group row">
                               <label for="path_picture" class="col-md-4 col-form-label text-md-right">{{ __('Upload Picture') }}</label>
                               <div class="col-md-6">
-                                  <input id="path_picture" type="file" class="form-control @error('path_picture') is-invalid @enderror" name="path_picture">
+                                  <input id="path_picture" type="file" accept="image/*" class="form-control @error('path_picture') is-invalid @enderror" name="path_picture">
                                   @error('picture')
                                       <span class="invalid-feedback" role="alert">
                                           <strong>{{ $message }}</strong>

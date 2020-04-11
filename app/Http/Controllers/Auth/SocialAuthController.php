@@ -58,7 +58,7 @@ class SocialAuthController extends Controller
           "client_id" => "7cd0852136808242607c66d2ab64a711fbb4542c2a06b41fa7b727e658d57249",
           "client_secret" => "68711b1cf988be48a92d66424147fdda7c9c00c4f3b072a76aabe47c53717f2d",
           "code" => $_GET['code'],
-          "redirect_uri" => "http://localhost:8888/public/socialauth/intra/callback",
+          "redirect_uri" => "http://localhost:8080/public/socialauth/intra/callback",
         ];
 
         curl_setopt($curl, CURLOPT_POSTFIELDS, $array);

@@ -68,7 +68,7 @@
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
                                 <a class="btn btn-sm " href="{{ url('socialauth/github') }}">
-                                   <i class="fa fa-github fa-3x"></i>
+                                   <i class="fa fa-github fa-3x">Github</i>
                                 </a>
                                 <a class="btn btn-sm " href="{{ url('socialauth/intra') }}">
                                    <i class="fa fa-3x">INTRA 42</i>

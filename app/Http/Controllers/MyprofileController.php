@@ -62,7 +62,7 @@ class MyprofileController extends Controller
                         //echo $_FILES['image']['tmp_name'];
 
                         //print_r($_SERVER);
-                        $upload_dir_name = "/Public/Pictures/";
+                        $upload_dir_name = "/public/Pictures/";
                         move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $upload_dir_name . basename($_FILES['image']['name']));
                         //la picture est enregistre sur le serveur je dois faire la query d update de la bdd
                         $users = auth()->user();

@@ -18,7 +18,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <div id="app">
@@ -73,9 +72,9 @@
                                     </form>
                                 <!-- </div> -->
                                 @if (Auth::user()->language == 'fr')
-                                   <a href="/Public/locale/en"> <img src="/Public/Pictures/en.png" width="25px" heigth="25px" alt=""> </a>
+                                   <a href="/public/locale/en"> <img src="/public/Pictures/en.png" width="25px" heigth="25px" alt=""> </a>
                                 @else
-                                  <a href="/Public/locale/fr"><img src="/Public/Pictures/fr.png" width="25px" heigth="25px"alt=""> </a>
+                                  <a href="/public/locale/fr"><img src="/public/Pictures/fr.png" width="25px" heigth="25px"alt=""> </a>
                                  @endif
 
 
