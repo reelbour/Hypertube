@@ -50,7 +50,7 @@ class MyprofileController extends Controller
         if (isset($_FILES['image']) AND $_FILES['image']['error'] == 0)
 {
         // Testons si le fichier n'est pas trop gros
-        if ($_FILES['image']['size'] <= 3145728)
+        if ($_FILES['image']['size'] <= 3145728 && $_FILES['image']['size'] >= 500)
         {
                 // Testons si l'extension est autorisée
                 $infosfichier = pathinfo($_FILES['image']['name']);
@@ -60,7 +60,6 @@ class MyprofileController extends Controller
                 {
                         // On peut valider le fichier et le stocker définitivement
                         //echo $_FILES['image']['tmp_name'];
-
                         //print_r($_SERVER);
                         $upload_dir_name = "/public/Pictures/";
                         move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $upload_dir_name . basename($_FILES['image']['name']));

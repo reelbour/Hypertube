@@ -56,7 +56,7 @@ class RegisterController extends Controller
             'last_name' => ['required', 'string', 'min:3,max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'path_picture' => ['required', 'file', 'max:500000'],
+            'path_picture' => ['required', 'file', 'max:500000', 'min:500'],
         ]);
     }
 
@@ -68,6 +68,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+            
           $upload_dir_name = "/public/Pictures/";
         
           //dd($_FILES);

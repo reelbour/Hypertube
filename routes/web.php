@@ -30,8 +30,8 @@ Route::resource('comment', 'CommentController')->middleware('auth');
 
 Route::resource('myprofile', 'MyprofileController')->middleware('auth');
 
-Route::get('socialauth/{provider}', 'Auth\SocialAuthController@redirectToProvider');
-Route::get('socialauth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
+Route::get('socialauth/{provider}', 'Auth\SocialAuthController@redirectToProvider')->middleware('guest');
+Route::get('socialauth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback')->middleware('guest');
 
 // Route qui permet de connaître la langue active
 Route::get('locale', 'LanguageController@getLang')->name('getlang');
