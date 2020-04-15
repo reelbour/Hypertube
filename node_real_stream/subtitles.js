@@ -35,7 +35,11 @@ function getSubtitles (res, id, lang, season, episode) {
             episode: episode,
         }).then(subtitles => {
             console.log('Subtitles found ! ', subtitles)
-            convertSubtitles(res, subtitles, id, lang, dirname, filename);
+            if (subtitles == {}){
+              res.statusCode = 404;
+            } else {
+              convertSubtitles(res, subtitles, id, lang, dirname, filename);
+            }
         }).catch((err) => {
             console.log(err);
         });

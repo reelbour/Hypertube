@@ -51,20 +51,3 @@ app.get('/subtitles/:id/:lang/:season/:episode', function (req, res){
 app.listen(3000, function () {
     console.log('Listening on port ' + '3000!')
 });
-
-
-
-
-
-// app.get('/subtitles/en/:id', function (req, res) {
-//     let tmpReq = req;
-//     request('https://tv-v2.api-fetch.website/movie/' + req.params.id, function (req, res) {
-//         if (res.body) {
-//             let movieInfo = JSON.parse(res.body);
-//             currentIMDB = movieInfo.imdb_id;
-//         }
-//     });
-//     setTimeout(function() {
-//         subtitles.getEnglishSubtitles(res, currentIMDB, tmpReq.params.id);
-//     }, 2000);
-// });
