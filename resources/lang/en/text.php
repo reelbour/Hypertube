@@ -72,5 +72,7 @@ return [
   'comment' => 'Your comment ...',
   'welcome' => 'Welcome',
   'home' => 'Home',
+  'languagechoose' => 'Choose your language',
+  'footer' => 'SOSATUBE 2020 || all rigth is free || 19 school from 42 Network',
   'enjoy' => 'Enjoy this free and without add streaming site using torrent protocol'
 ];

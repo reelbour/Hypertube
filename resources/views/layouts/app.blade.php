@@ -19,32 +19,24 @@
     <!-- Styles -->
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" type="image/png" href="/public/Pictures/images.png" />
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/home') }}">
-                    {{ config('app.name', 'Laravel') }}
+                   <span>SOSA</span><span>tube</span>
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-
-
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
+                    @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
@@ -52,19 +44,19 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <!-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre> -->
-                                    <p>{{ __('text.welcome')}} {{Auth::user()->name }}</p>
-                                    <!-- <span class="caret"></span> -->
-                                <!-- </a> -->
-                                <!-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> -->
-                                    <a class="dropdown-item" href="{{ route('myprofile.index') }}">  {{ __('text.my_profile') }}</a>
-                                <!-- </div> -->
+                            @endif        
+                    @else
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ __('text.welcome')}} {{Auth::user()->name }}
+                                <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('myprofile.index') }}">{{ __('text.my_profile') }}</a>
+                            </div>
 
-                                <!-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> -->
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('text.logout') }}
@@ -73,30 +65,28 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
-                                <!-- </div> -->
-                                @if (Auth::user()->language == 'fr')
-                                   <a href="/public/locale/en"> <img src="/public/Pictures/en.png" width="25px" heigth="25px" alt=""> </a>
-                                @else
-                                  <a href="/public/locale/fr"><img src="/public/Pictures/fr.png" width="25px" heigth="25px"alt=""> </a>
-                                 @endif
-
-
-
                                 </div>
-                            </li>
-
-
-
-                        @endguest
+                        </li>
+                        @endif
                     </ul>
                 </div>
             </div>
         </nav>
 
+
         <main class="py-4">
             @yield('content')
         </main>
     </div>
-    <footer style="width:100%;padding:15px;text-align:center;border-top:1px solid #ccc;">SOSATUBE 2020 || all rigth is free || 19 school from 42 Network</footer>
+    <footer style="width:100%;padding:15px;text-align:center;border-top:1px solid #ccc;">
+        <div class="language">
+            <span class="small">{{ __('text.languagechoose')}}</span>
+            <a href="/public/locale/en"> <img src="/public/Pictures/en.png" width="25px" heigth="25px" alt=""></a>
+            <a href="/public/locale/fr"><img src="/public/Pictures/fr.png" width="25px" heigth="25px"alt=""></a>
+        </div>
+        {{ __('text.footer')}}    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 </html>

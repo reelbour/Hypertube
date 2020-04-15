@@ -72,5 +72,7 @@ return [
     'comment' => 'Votre commentaire ...',
     'welcome' => 'Bienvenue',
     'home' => 'Accueil',
+    'languagechoose' => 'Selectionner votre langue préférée',
+    'footer' => 'SOSATUBE 2020 || Tout les droits sont libres || 19 school from 42 Network',
     'enjoy' => 'Profiter de ce site de streaming gratuit & sans pubs utilisant le protocole torrent'
 ];
