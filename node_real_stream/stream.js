@@ -2,10 +2,6 @@ const torrentStream = require('torrent-stream');
 const fs = require('fs');
 const pump = require('pump');
 const rimraf = require("rimraf");
-const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
-const ffmpeg = require('fluent-ffmpeg');
-
-ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
 function magnetUrl (req, res, torrentLink) {
   let fullPath = '../public/film/'  + torrentLink + ".mp4.part";
@@ -71,8 +67,7 @@ function downloadAndStream (req, res, file, fullPath) {
   let videoFormat = file.name.split('.').pop();
   if (videoFormat === 'mp4' || videoFormat === 'mkv' || videoFormat === 'ogg' || videoFormat === 'webm') {
     let currentStream = file.createReadStream();
-    if (videoFormat !== 'mkv')
-      currentStream.pipe(fs.createWriteStream(fullPath));
+    currentStream.pipe(fs.createWriteStream(fullPath));
 
     const pathToVideo = fullPath;
     let fileSize = file.length;
@@ -104,13 +99,7 @@ function stream (req, res, newpath) {
 };
 
 function partialContent (req, res, start, end, fileSize, file, bool) {
-  var range = req.headers.range;
-  //console.log("range is " + range);
-  if (!range) {
-    console.log("no range");
-   // 416 Wrong range
-   return res.sendStatus(416);
-  }
+  let range = req.headers.range;
   let parts = range.replace(/bytes=/, '').split('-');
   let newStart = parts[0];
   let newEnd = parts[1];
@@ -137,13 +126,8 @@ function partialContent (req, res, start, end, fileSize, file, bool) {
   else {
     var stream = file.createReadStream({start: start, end: end});
   }
-  let videoFormat = file.name.split('.').pop();
-  if (videoFormat === 'mkv'){
-    let conversion = mkv2mp4(stream);
-    pump(conversion, res);
-  } else {
-    pump(stream, res);
-  }
+
+  pump(stream, res);
 };
 
 function notPartialContent (req, res, fileSize, pathToVideo) {
@@ -153,38 +137,6 @@ function notPartialContent (req, res, fileSize, pathToVideo) {
   };
   fs.createReadStream(pathToVideo).pipe(res);
   res.writeHead(200, head);
-};
-function mkv2mp4 (inputstream) {
-  console.log("ffmpeg");
-  var runningCommands = {};
-  var id = randomIntInc(1, 10000);
-                //console.log("the new id is " + id);
-  runningCommands[id] = ffmpeg(inputstream).videoCodec('libvpx').audioCodec('libvorbis').format('webm')
-                .audioBitrate(128)
-                .videoBitrate(1024)
-                .outputOptions([
-                  '-threads 8',
-                  '-deadline realtime',
-                  '-error-resilient 1'
-                ])
-                .on('start', function (cmd) {
-                  console.log('this has started ' + cmd);
-
-                })
-                .on('end', function () {
-                  delete runningCommands[id];
-                })
-                .on('error', function (err) {
-                  console.log("error now happening");
-                  console.log(err);
-                  delete runningCommands[id];
-                  console.log("runningCommands[id] is deleted from id " + id);
-                });
-    return runningCommands[id];
-};
-
-function randomIntInc (low, high) {
-    return Math.floor(Math.random() * (high - low + 1) + low);
 };
 
 module.exports = {
