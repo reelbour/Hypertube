@@ -25,6 +25,9 @@ Route::get('/video', 'VideoPageController@index')->middleware('auth');
 
 Route::post('/viewed', 'FilmviewedController@movie_viewed')->middleware('auth');
 
+// Route::get('/logout', function () {
+//     return abort(404);
+// });
 
 Route::resource('comment', 'CommentController')->middleware('auth');
 

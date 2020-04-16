@@ -73,8 +73,8 @@ class RegisterController extends Controller
           $upload_dir_name = "/public/Pictures/";
           $pathx = $upload_dir_name . basename($_FILES['path_picture']['name']);
         
-          move_uploaded_file(basename($_FILES['path_picture']['tmp_name']), $_SERVER['DOCUMENT_ROOT'] . $upload_dir_name . basename($data['path_picture']));
-          
+          move_uploaded_file($_FILES['path_picture']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $upload_dir_name . basename($_FILES['path_picture']['name']));
+         // dd($_FILES);
             return User::create([
                 'name' => $data['name'],
                 'last_name' => $data['last_name'],

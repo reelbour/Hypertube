@@ -70,7 +70,7 @@
                         @csrf
                         <!-- @method('PUT') -->
                         <input type="hidden" name="id" value="{{ $movie->id}}">
-                        <textarea name="content" cols="40" rows="5" placeholder="{{ __(('text.comment')) }}"></textarea>
+                        <textarea name="content" cols="25" rows="5" placeholder="{{ __(('text.comment')) }}"></textarea>
                         <!-- <input type="text" name="content" value="" col=5 row=15 placeholder="Your comment"> -->
                         <button class="button is-danger" type="submit">{{ __(('text.send')) }}</button>
                       </form>
@@ -82,8 +82,6 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-
 <script>
         $(document).ready(function() {
           $('#video').on('play', function(e) {

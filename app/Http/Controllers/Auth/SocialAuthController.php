@@ -18,7 +18,7 @@ class SocialAuthController extends Controller
       else {
         //gerer l envoi de donne a l api 42
 
-        return redirect('https://api.intra.42.fr/oauth/authorize?client_id=7cd0852136808242607c66d2ab64a711fbb4542c2a06b41fa7b727e658d57249&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fpublic%2Fsocialauth%2Fintra%2Fcallback&response_type=code');
+        return redirect('https://api.intra.42.fr/oauth/authorize?client_id=8b9d7990b08e876a4283bd1adced27a957a6e8065d3343d12ecb45448bd5c1ac&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fpublic%2Fsocialauth%2Fintra%2Fcallback&response_type=code');
       }
     }
 
@@ -55,8 +55,8 @@ class SocialAuthController extends Controller
 
         $array = [
           "grant_type" => "authorization_code",
-          "client_id" => "7cd0852136808242607c66d2ab64a711fbb4542c2a06b41fa7b727e658d57249",
-          "client_secret" => "68711b1cf988be48a92d66424147fdda7c9c00c4f3b072a76aabe47c53717f2d",
+          "client_id" => "8b9d7990b08e876a4283bd1adced27a957a6e8065d3343d12ecb45448bd5c1ac",
+          "client_secret" => "1ff3ae0cf6db45fe2486379eea6573bf4f6c57a4c1da3d1398c82ca9d13281bc",
           "code" => $_GET['code'],
           "redirect_uri" => "http://localhost:8080/public/socialauth/intra/callback",
         ];
