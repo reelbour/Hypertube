@@ -53,19 +53,14 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('myprofile.index') }}">{{ __('text.my_profile') }}</a>
+                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                                logout
+                            </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                                </form>
                             </div>
-
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('text.logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
                         </li>
                         @endif
                     </ul>
@@ -79,11 +74,13 @@
         </main>
     </div>
     <footer style="width:100%;padding:15px;text-align:center;border-top:1px solid #ccc;">
-        <div class="language">
+       
+        @auth  <div class="language">
             <span class="small">{{ __('text.languagechoose')}}</span>
             <a href="/public/locale/en"> <img src="/public/Pictures/en.png" width="25px" heigth="25px" alt=""></a>
             <a href="/public/locale/fr"><img src="/public/Pictures/fr.png" width="25px" heigth="25px"alt=""></a>
         </div>
+        @endif
         {{ __('text.footer')}}    </footer>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

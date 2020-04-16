@@ -56,7 +56,7 @@ class RegisterController extends Controller
             'last_name' => ['required', 'string', 'min:3,max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'path_picture' => ['required', 'image', 'max:500000', 'min:50'],
+            'path_picture' => ['required', 'image'],
         ]);
     }
 
@@ -71,9 +71,6 @@ class RegisterController extends Controller
 
             
           $upload_dir_name = "/public/Pictures/";
-        
-          //dd($_FILES);
-        
           $pathx = $upload_dir_name . basename($_FILES['path_picture']['name']);
         
           move_uploaded_file(basename($_FILES['path_picture']['tmp_name']), $_SERVER['DOCUMENT_ROOT'] . $upload_dir_name . basename($data['path_picture']));
