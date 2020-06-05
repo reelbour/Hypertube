@@ -88,6 +88,8 @@ class HomeController extends Controller
             $data = json_decode($data);
             if (isset($data->data->movies)) {
                 foreach($data->data->movies as $res) {
+                  if (empty($res->torrents))
+                    $res->torrents = '';
                     array_push($movies, (object)[
                         'title' => $res->title,
                         'id' => $res->id,
