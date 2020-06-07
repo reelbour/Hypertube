@@ -83,9 +83,11 @@ class SocialAuthController extends Controller
         curl_close($curl);
 
         $response = json_decode($response, true);
-
+        
         $authUser=User::firstOrNew(['email'=>$response['email']]);
-        $authUser->name=$response['login'];
+        $authUser->name=$response['first_name'];
+        $authUser->last_name=$response['last_name'];
+        $authUser->path_picture=$response['image_url'];
         $authUser->email=$response['email'];
         $authUser->provider=$provider;
 
