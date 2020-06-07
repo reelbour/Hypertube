@@ -13,11 +13,11 @@ class SocialAuthController extends Controller
     {
       if ($provider == 'github')
       {
-    	return Socialite::driver($provider)->redirect();
+    	   return Socialite::driver($provider)->redirect();
       }
-      else {
+      else
+      {
         //gerer l envoi de donne a l api 42
-
         return redirect('https://api.intra.42.fr/oauth/authorize?client_id=8b9d7990b08e876a4283bd1adced27a957a6e8065d3343d12ecb45448bd5c1ac&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fpublic%2Fsocialauth%2Fintra%2Fcallback&response_type=code');
       }
     }
@@ -27,13 +27,13 @@ class SocialAuthController extends Controller
 
       if ($provider == 'github')
       {
-    	$user = Socialite::driver($provider)->user();
+    	   $user = Socialite::driver($provider)->user();
+         $authUser=User::firstOrNew(['email'=>$user->email]);
 
-        $authUser=User::firstOrNew(['email'=>$user->email]);
-
-        $authUser->name=$user->name;
-        $authUser->email=$user->email;
-        $authUser->provider=$provider;
+        $authUser->name = $user->name;
+        $authUser->email = $user->email;
+        $authUser->provider = $provider;
+        $authUser->path_picture = $user->avatar;
 
         $authUser->save();
 
@@ -43,7 +43,6 @@ class SocialAuthController extends Controller
       }
       else if($provider == 'intra')
       {
-
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_URL,'https://api.intra.42.fr/oauth/token');
@@ -83,7 +82,7 @@ class SocialAuthController extends Controller
         curl_close($curl);
 
         $response = json_decode($response, true);
-        
+
         $authUser=User::firstOrNew(['email'=>$response['email']]);
         $authUser->name=$response['first_name'];
         $authUser->last_name=$response['last_name'];
