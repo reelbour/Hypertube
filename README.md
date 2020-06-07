@@ -11,6 +11,9 @@ Une fois un élément sélectionné, il sera téléchargé sur le serveur et dif
 sur le player web en même temps. Autrement dit, le lecteur ne se contentera pas d’afficher la vidéo une fois le téléchargement complété, mais sera capable de
 streamer directement le flux.
 
+## Auteurs
+### Reelbour - Vgula - Nraziano - Staeter - Ahammou
+ 
 
 ## Installation
 
@@ -18,6 +21,8 @@ streamer directement le flux.
     port 8080 et au minimum la version 7.4.*. PHP
     (https://getcomposer.org/, https://www.npmjs.com/,
     https://www.mamp.info/en/windows/)
+    Afin  d'envoyer/recevoir des mails votre php.ini doit mentionné le path de
+    sendmail.
 
 2.  Git clone le repo à la racine de votre dossier selon votre configuration
     (htdocs pour apache)
@@ -39,4 +44,4 @@ streamer directement le flux.
     les, une fois la commande terminé lancer la commande " npm start" et laisser
     ce terminal ouvert(celui ci gère le download/streaming).
 
-7. Rendez-vous sur localhost:8080/public & Enjoy ! 
+7. Rendez-vous sur localhost:8080/public & Enjoy !
