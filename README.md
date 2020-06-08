@@ -1,79 +1,47 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# Hypertube, Dernier projet du Cursus Web 42.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## Introduction
 
-## About Laravel
+Ce projet propose de créer une application web permettant à un utilisateur
+de rechercher et visionner des vidéos.
+Le lecteur sera directement intégré au site, et les vidéos seront téléchargées
+au travers du protocole BitTorrent.
+Le moteur de recherche interrogera plusieurs sources externes.
+Une fois un élément sélectionné, il sera téléchargé sur le serveur et diffusé
+sur le player web en même temps. Autrement dit, le lecteur ne se contentera pas d’afficher la vidéo une fois le téléchargement complété, mais sera capable de
+streamer directement le flux.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Auteurs
+### Reelbour - Vgula - Nraziano - Staeter - Ahammou
+ 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1.  S'assurer d'avoir composer, npm ainsi qu'un serveur web en localhost sur le
+    port 8080 et au minimum la version 7.4.*. PHP
+    (https://getcomposer.org/, https://www.npmjs.com/,
+    https://www.mamp.info/en/windows/)
+    Afin  d'envoyer/recevoir des mails votre php.ini doit mentionné le path de
+    sendmail.
 
-## Learning Laravel
+2.  Git clone le repo à la racine de votre dossier selon votre configuration
+    (htdocs pour apache)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3.  Dans votre terminal favori, à la racine du dossier cloné lancer la commande
+    " composer update ",
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+4.  Aller dans le fichier de configuration .env à la racine du dépot et
+    configurer le nom d'utilisateur et le mot de passe ainsi que le port pour se connecter à la base de donnée.
 
-## Laravel Sponsors
+5.  Ajouter manuellement (pour le moment) une table dans votre base de donnée
+    qui se nomme hypertube. Ensuite, revenez sur votre terminal et lancer la
+    commande " php artisan migrate"
+    (Une erreur proviendrais surement d'un soucis de configuration du fichier
+    .env)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+6.  Aller dans le dossier node_real_stream qui se trouve à la racine du dossier
+    et lancer la commande " npm install ", des warnings peuvent subvenir ignorer
+    les, une fois la commande terminé lancer la commande " npm start" et laisser
+    ce terminal ouvert(celui ci gère le download/streaming).
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+7. Rendez-vous sur localhost:8080/public & Enjoy !

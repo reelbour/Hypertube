@@ -1,0 +1,14 @@
+Voici un petit tuto pour la correction de Hypertube
+
+1. Avoir une VM avec des privilèges root
+        (Remplacer le mdp de user42 qui est user42 par un autre & c'est réglé)
+2. Avoir établis une connexion SSH (normalement c est fait avant la correction)
+        (apt-get install SSH + ssh-keygen + copie de la clé publique sur l intra)
+3. Installer LAMP + CHROME (lamp sur le bureau pls)
+        (bitnami.com/stack/lamp/Installer & google)
+4. Remplacer les fichier dans LAMP & bien mettre les meme user/psw que dans .Env
+        (php.ini dans php/etc/ & httpd.conf apache2/conf)
+4bis. si pas de solution, entrer manuellement une table nommé hypertube dans phpmyadmin
+5. Lancer le script
+        (a la racine du projet)
+6.

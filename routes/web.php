@@ -17,6 +17,29 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/stream', function () {
-    return view('stream');
-});
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
+Route::get('/home/search', 'HomeController@search')->name('home')->middleware('auth');
+Route::get('/video', 'VideoPageController@index')->middleware('auth');
+
+Route::post('/viewed', 'FilmviewedController@movie_viewed')->middleware('auth');
+
+// Route::get('/logout', function () {
+//     return abort(404);
+// });
+
+Route::resource('comment', 'CommentController')->middleware('auth');
+
+Route::resource('myprofile', 'MyprofileController')->middleware('auth');
+
+Route::get('socialauth/{provider}', 'Auth\SocialAuthController@redirectToProvider')->middleware('guest');
+Route::get('socialauth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback')->middleware('guest');
+
+// Route qui permet de connaître la langue active
+Route::get('locale', 'LanguageController@getLang')->name('getlang');
+
+// Route qui permet de modifier la langue
+Route::get('locale/{lang}', 'LanguageController@setLang')->name('setlang')->middleware('auth');
+
+Route::get('/UserProfile/{id}', 'UserProfileController@show_user')->middleware('auth');
