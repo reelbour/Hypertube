@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "download-file": "^0.1.5",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fs": "0.0.1-security",
     "opensubtitles-api": "^5.1.0",
     "path": "^0.12.7",
